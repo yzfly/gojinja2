@@ -1,0 +1,3510 @@
+[
+ {
+  "name": "output_types",
+  "source": "{{ none }}|{{ true }}|{{ false }}|{{ 1 }}|{{ 1.5 }}|{{ 'x' }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "None|True|False|1|1.5|x"
+ },
+ {
+  "name": "output_containers",
+  "source": "{{ [1, 'a', none] }}|{{ (1,) }}|{{ {'k': [1, 2]} }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[1, 'a', None]|(1,)|{'k': [1, 2]}"
+ },
+ {
+  "name": "output_nested_quotes",
+  "source": "{{ [\"it's\", 'he said \"hi\"'] }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[\"it's\", 'he said \"hi\"']"
+ },
+ {
+  "name": "math_full",
+  "source": "{{ (1 + 1 * 2) - 3 / 2 }}|{{ 2**3 }}|{{ 3 // 2 }}|{{ 3 % 2 }}|{{ -7 // 2 }}|{{ -7 % 3 }}|{{ 7.5 // 2 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1.5|8|1|1|-4|2|3.0"
+ },
+ {
+  "name": "math_float_div",
+  "source": "{{ 1 / 2 }}|{{ 4 / 2 }}|{{ 1.0 + 2 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "0.5|2.0|3.0"
+ },
+ {
+  "name": "unary_ops",
+  "source": "{{ +3 }}|{{ -3 }}|{{ not 0 }}|{{ not 'x' }}|{{ --1 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "3|-3|True|False|1"
+ },
+ {
+  "name": "string_repeat",
+  "source": "{{ 'ab' * 3 }}|{{ [1, 2] * 2 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "ababab|[1, 2, 1, 2]"
+ },
+ {
+  "name": "concat_tilde",
+  "source": "{{ 1 ~ 'x' ~ none ~ true ~ 1.5 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1xNoneTrue1.5"
+ },
+ {
+  "name": "compare_chain",
+  "source": "{{ 1 < 2 < 3 }}|{{ 1 < 2 > 3 }}|{{ 'a' < 'b' }}|{{ [1] < [1, 2] }}|{{ (1, 2) < (1, 3) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False|True|True|True"
+ },
+ {
+  "name": "equality_cross_type",
+  "source": "{{ 1 == 1.0 }}|{{ 1 == True }}|{{ 0 == False }}|{{ '1' == 1 }}|{{ [] == [] }}|{{ {} == {} }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|True|True|False|True|True"
+ },
+ {
+  "name": "in_op",
+  "source": "{{ 1 in [1, 2] }}|{{ 'a' in 'abc' }}|{{ 'k' in {'k': 1} }}|{{ 3 not in [1, 2] }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|True|True|True"
+ },
+ {
+  "name": "bool_shortcircuit_value",
+  "source": "{{ 0 or 'fallback' }}|{{ 'first' and 'second' }}|{{ '' or [] }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "fallback|second|[]"
+ },
+ {
+  "name": "condexpr",
+  "source": "{{ 0 if true else 1 }}|{{ 'yes' if 1 == 1 }}|{{ 'no' if false }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "0|yes|"
+ },
+ {
+  "name": "truthiness",
+  "source": "{% for v in [0, 1, '', 'x', [], [1], {}, none, 0.0] %}{{ 'T' if v else 'F' }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "FTFTFTFFF"
+ },
+ {
+  "name": "slicing_str",
+  "source": "{{ 'hello'[1:3] }}|{{ 'hello'[::-1] }}|{{ 'hello'[-3:] }}|{{ '日本語テキスト'[2:4] }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "el|olleh|llo|語テ"
+ },
+ {
+  "name": "slicing_list",
+  "source": "{{ [0,1,2,3,4][1:4:2] }}|{{ [0,1,2,3][::-1] }}|{{ [0,1,2][5:] }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[1, 3]|[3, 2, 1, 0]|[]"
+ },
+ {
+  "name": "getattr_getitem",
+  "source": "{{ d.k }}|{{ d['k'] }}|{{ l.0 }}|{{ l[0] }}|{{ l[-1] }}",
+  "ctx": {
+   "d": {
+    "k": "v"
+   },
+   "l": [
+    10,
+    20,
+    30
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "v|v|10|10|30"
+ },
+ {
+  "name": "getattr_missing_renders",
+  "source": "{{ d.missing|default('dflt') }}",
+  "ctx": {
+   "d": {
+    "k": 1
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "dflt"
+ },
+ {
+  "name": "string_methods",
+  "source": "{{ 'foo bar'.upper() }}|{{ 'A,B,C'.split(',') }}|{{ '  x '.strip() }}|{{ 'a-b'.replace('-', '+') }}|{{ 'x'.center(5) if false else 'skip' }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "FOO BAR|['A', 'B', 'C']|x|a+b|skip"
+ },
+ {
+  "name": "dict_methods",
+  "source": "{{ d.get('a') }}|{{ d.get('z', 'def') }}|{{ d.keys()|list }}|{{ d.items()|list }}",
+  "ctx": {
+   "d": {
+    "a": 1,
+    "b": 2
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "1|def|['a', 'b']|[('a', 1), ('b', 2)]"
+ },
+ {
+  "name": "number_formats",
+  "source": "{{ 1e0 }}|{{ 2.5e100 }}|{{ 0x1F }}|{{ 0b101 }}|{{ 1_000 + 1 }}|{{ 12_34_56 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1.0|2.5e+100|31|5|1001|123456"
+ },
+ {
+  "name": "tuple_literal_render",
+  "source": "{{ () }}|{{ (1,) }}|{{ (1, 2) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "()|(1,)|(1, 2)"
+ },
+ {
+  "name": "implicit_tuple_output",
+  "source": "{{ 1, 2 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "(1, 2)"
+ },
+ {
+  "name": "str_mod_op",
+  "source": "{{ '%s-%d' % ('a', 7) }}|{{ '%05.2f' % 3.14159 }}|{{ '%x|%o|%e' % (255, 8, 12345.678) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "a-7|03.14|ff|10|1.234568e+04"
+ },
+ {
+  "name": "str_format_method",
+  "source": "{{ '{} {}'.format(1, 'two') }}|{{ '{1}{0}'.format('a', 'b') }}|{{ '{n}!'.format(n=9) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1 two|ba|9!"
+ },
+ {
+  "name": "if_elif_else",
+  "source": "{% if a %}A{% elif b %}B{% else %}C{% endif %}",
+  "ctx": {
+   "a": 0,
+   "b": true
+  },
+  "templates": {},
+  "env": {},
+  "output": "B"
+ },
+ {
+  "name": "for_basic",
+  "source": "{% for item in seq %}{{ item }}{% endfor %}",
+  "ctx": {
+   "seq": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "0123456789"
+ },
+ {
+  "name": "for_else_empty",
+  "source": "{% for item in [] %}x{% else %}EMPTY{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "EMPTY"
+ },
+ {
+  "name": "for_else_nonempty",
+  "source": "{% for item in [1] %}x{% else %}EMPTY{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "x"
+ },
+ {
+  "name": "for_loop_attrs",
+  "source": "{% for i in 'ab' %}{{ loop.index }}{{ loop.index0 }}{{ loop.revindex }}{{ loop.revindex0 }}{{ loop.first }}{{ loop.last }}|{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1021TrueFalse|2110FalseTrue|"
+ },
+ {
+  "name": "for_loop_length",
+  "source": "{% for i in [1,2,3] %}{{ loop.length }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "333"
+ },
+ {
+  "name": "for_cycle",
+  "source": "{% for i in range(7) %}{{ loop.cycle('a', 'b', 'c') }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "abcabca"
+ },
+ {
+  "name": "for_changed",
+  "source": "{% for v in [1, 1, 2, 2, 2, 3] %}{{ loop.changed(v) }},{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True,False,True,False,False,True,"
+ },
+ {
+  "name": "for_prev_next",
+  "source": "{% for v in [1, 2, 3] %}[{{ loop.previtem|default('-') }} {{ v }} {{ loop.nextitem|default('-') }}]{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[- 1 2][1 2 3][2 3 -]"
+ },
+ {
+  "name": "for_unpack",
+  "source": "{% for a, b in [(1, 'x'), (2, 'y')] %}{{ a }}{{ b }};{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1x;2y;"
+ },
+ {
+  "name": "for_unpack_dict_items",
+  "source": "{% for k, v in d.items() %}{{ k }}={{ v }},{% endfor %}",
+  "ctx": {
+   "d": {
+    "a": 1,
+    "b": 2,
+    "c": 3
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "a=1,b=2,c=3,"
+ },
+ {
+  "name": "for_filtered",
+  "source": "{% for i in range(10) if i % 2 == 0 %}{{ i }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "02468"
+ },
+ {
+  "name": "for_filtered_loop_attrs",
+  "source": "{% for i in range(10) if i % 2 == 0 %}{{ loop.index }}:{{ i }} {% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1:0 2:2 3:4 4:6 5:8 "
+ },
+ {
+  "name": "for_nested_loop",
+  "source": "{% for i in [1, 2] %}{% for j in 'ab' %}{{ i }}{{ j }}{{ loop.index }}|{% endfor %}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1a1|1b2|2a1|2b2|"
+ },
+ {
+  "name": "for_recursive",
+  "source": "{% for item in seq recursive %}[{{ item.a }}{% if item.b %}<{{ loop(item.b) }}>{% endif %}]{% endfor %}",
+  "ctx": {
+   "seq": [
+    {
+     "a": 1,
+     "b": [
+      {
+       "a": 1
+      },
+      {
+       "a": 2
+      }
+     ]
+    },
+    {
+     "a": 2,
+     "b": [
+      {
+       "a": 1
+      },
+      {
+       "a": 2
+      }
+     ]
+    },
+    {
+     "a": 3,
+     "b": [
+      {
+       "a": "a"
+      }
+     ]
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "[1<[1][2]>][2<[1][2]>][3<[a]>]"
+ },
+ {
+  "name": "for_recursive_depth",
+  "source": "{% for item in seq recursive %}{{ loop.depth }}:{{ item.a }}{% if item.b %}<{{ loop(item.b) }}>{% endif %};{% endfor %}",
+  "ctx": {
+   "seq": [
+    {
+     "a": 1,
+     "b": [
+      {
+       "a": 2,
+       "b": [
+        {
+         "a": 3
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "1:1<2:2<3:3;>;>;"
+ },
+ {
+  "name": "for_scope_no_leak",
+  "source": "{% for i in [1] %}{% set x = 'in' %}{% endfor %}{{ x|default('out') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "out"
+ },
+ {
+  "name": "for_loop_var_shadow",
+  "source": "{% set i = 'outer' %}{% for i in [1] %}{{ i }}{% endfor %}{{ i }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1outer"
+ },
+ {
+  "name": "for_string_iter",
+  "source": "{% for c in 'héllo' %}{{ c }}.{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "h.é.l.l.o."
+ },
+ {
+  "name": "for_dict_iter_keys",
+  "source": "{% for k in {'b': 1, 'a': 2} %}{{ k }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "ba"
+ },
+ {
+  "name": "if_scope_leak",
+  "source": "{% if true %}{% set x = 42 %}{% endif %}{{ x }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "42"
+ },
+ {
+  "name": "set_simple",
+  "source": "{% set x = 1 + 2 %}{{ x }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "3"
+ },
+ {
+  "name": "set_tuple_unpack",
+  "source": "{% set a, b = 1, 2 %}{{ a }}{{ b }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "12"
+ },
+ {
+  "name": "set_block",
+  "source": "{% set x %}hello {{ 'world' }}{% endset %}{{ x }}|{{ x.__class__ if false else '' }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "hello world|"
+ },
+ {
+  "name": "set_block_filter",
+  "source": "{% set x | upper %}hello{% endset %}{{ x }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "HELLO"
+ },
+ {
+  "name": "set_namespace",
+  "source": "{% set ns = namespace(found=false) %}{% for i in [1, 2] %}{% set ns.found = ns.found + i %}{% endfor %}{{ ns.found }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "3"
+ },
+ {
+  "name": "set_namespace_init_kwargs",
+  "source": "{% set ns = namespace(a=1, b='x') %}{{ ns.a }}{{ ns.b }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1x"
+ },
+ {
+  "name": "set_namespace_loop_counter",
+  "source": "{% set ns = namespace(c=0) %}{% for i in range(5) %}{% if i % 2 %}{% set ns.c = ns.c + 1 %}{% endif %}{% endfor %}{{ ns.c }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "2"
+ },
+ {
+  "name": "with_stmt",
+  "source": "{% with a = 1, b = a + 1 %}{{ a }},{{ b }}{% endwith %}{{ a is defined }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "UndefinedError",
+  "error": "'a' is undefined"
+ },
+ {
+  "name": "with_empty_vars",
+  "source": "{% set a = 1 %}{% with %}{% set a = 2 %}{{ a }}{% endwith %}{{ a }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "21"
+ },
+ {
+  "name": "filter_chain_pipe",
+  "source": "{{ 'foo'|upper|lower }}|{{ [3, 1, 2]|sort|join(',') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "foo|1,2,3"
+ },
+ {
+  "name": "filter_priority_unary",
+  "source": "{{ -1|abs }}|{{ (-1)|abs }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1|1"
+ },
+ {
+  "name": "tests_basic",
+  "source": "{{ x is defined }}|{{ y is defined }}|{{ none is none }}|{{ 1 is odd }}|{{ 2 is even }}|{{ 4 is divisibleby 2 }}",
+  "ctx": {
+   "x": 1
+  },
+  "templates": {},
+  "env": {},
+  "output": "True|False|True|True|True|True"
+ },
+ {
+  "name": "tests_types",
+  "source": "{{ 1 is integer }}|{{ 1.0 is float }}|{{ 1 is number }}|{{ true is boolean }}|{{ 'x' is string }}|{{ [] is sequence }}|{{ {} is mapping }}|{{ x is callable }}",
+  "ctx": {
+   "x": 1
+  },
+  "templates": {},
+  "env": {},
+  "output": "True|True|True|True|True|True|True|False"
+ },
+ {
+  "name": "test_sameas",
+  "source": "{{ a is sameas b }}|{{ true is sameas true }}|{{ 1 is sameas 1.0 }}",
+  "ctx": {
+   "a": "s",
+   "b": "s"
+  },
+  "templates": {},
+  "env": {},
+  "output": "True|True|False"
+ },
+ {
+  "name": "test_in",
+  "source": "{{ 1 is in([1, 2]) }}|{{ 'x' is in('xyz') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|True"
+ },
+ {
+  "name": "test_comparison_aliases",
+  "source": "{{ 1 is eq 1 }}|{{ 1 is ne 2 }}|{{ 1 is lt 2 }}|{{ 2 is gt 1 }}|{{ 1 is le 1 }}|{{ 1 is ge 1 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|True|True|True|True|True"
+ },
+ {
+  "name": "test_not_chain",
+  "source": "{{ 1 is not none }}|{{ none is not none }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False"
+ },
+ {
+  "name": "autoescape_on",
+  "source": "{{ v }}|{{ v|safe }}|{{ v|e }}",
+  "ctx": {
+   "v": "<b>&'\"</b>"
+  },
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "&lt;b&gt;&amp;&#39;&#34;&lt;/b&gt;|<b>&'\"</b>|&lt;b&gt;&amp;&#39;&#34;&lt;/b&gt;"
+ },
+ {
+  "name": "autoescape_off",
+  "source": "{{ v }}|{{ v|e }}|{{ v|e|e if false else '' }}",
+  "ctx": {
+   "v": "<b>"
+  },
+  "templates": {},
+  "env": {},
+  "output": "<b>|&lt;b&gt;|"
+ },
+ {
+  "name": "autoescape_block",
+  "source": "{% autoescape true %}{{ v }}{% endautoescape %}|{% autoescape false %}{{ v }}{% endautoescape %}",
+  "ctx": {
+   "v": "<x>"
+  },
+  "templates": {},
+  "env": {},
+  "output": "&lt;x&gt;|<x>"
+ },
+ {
+  "name": "autoescape_concat",
+  "source": "{{ '<b>' ~ v }}",
+  "ctx": {
+   "v": "<i>"
+  },
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "&lt;b&gt;&lt;i&gt;"
+ },
+ {
+  "name": "autoescape_add_markup",
+  "source": "{{ ('<b>'|safe) + v }}",
+  "ctx": {
+   "v": "<i>"
+  },
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "<b>&lt;i&gt;"
+ },
+ {
+  "name": "escape_double",
+  "source": "{{ v|e|e }}",
+  "ctx": {
+   "v": "<"
+  },
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "&lt;"
+ },
+ {
+  "name": "escape_idempotent_markup",
+  "source": "{{ ('<b>'|safe)|e }}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "<b>"
+ },
+ {
+  "name": "macro_simple",
+  "source": "{% macro say(name) %}Hello {{ name }}!{% endmacro %}{{ say('World') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "Hello World!"
+ },
+ {
+  "name": "macro_defaults",
+  "source": "{% macro m(a, b=2, c=3) %}{{ a }}{{ b }}{{ c }}{% endmacro %}{{ m(1) }}|{{ m(1, 9) }}|{{ m(1, c=8) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "123|193|128"
+ },
+ {
+  "name": "macro_default_refs_arg",
+  "source": "{% macro m(a, b=a) %}{{ a }}{{ b }}{% endmacro %}{{ m(1) }}|{{ m(1, 2) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "11|12"
+ },
+ {
+  "name": "macro_varargs",
+  "source": "{% macro m(a) %}{{ a }}{{ varargs }}{% endmacro %}{{ m(1, 2, 3) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1(2, 3)"
+ },
+ {
+  "name": "macro_kwargs",
+  "source": "{% macro m(a) %}{{ a }}{{ kwargs }}{% endmacro %}{{ m(1, x=2) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1{'x': 2}"
+ },
+ {
+  "name": "macro_too_many_args_err",
+  "source": "{% macro m(a) %}{{ a }}{% endmacro %}{{ m(1, 2) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "macro 'm' takes not more than 1 argument(s)"
+ },
+ {
+  "name": "macro_unknown_kwarg_err",
+  "source": "{% macro m(a) %}{{ a }}{% endmacro %}{{ m(1, b=2) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "macro 'm' takes no keyword argument 'b'"
+ },
+ {
+  "name": "macro_missing_arg_undefined",
+  "source": "{% macro m(a, b) %}{{ a }}{{ b }}{% endmacro %}{{ m(1) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1"
+ },
+ {
+  "name": "macro_caller",
+  "source": "{% macro wrap() %}<{{ caller() }}>{% endmacro %}{% call wrap() %}body{% endcall %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "<body>"
+ },
+ {
+  "name": "macro_caller_args",
+  "source": "{% macro dump(users) %}{% for u in users %}{{ caller(u) }}{% endfor %}{% endmacro %}{% call(u) dump(['a', 'b']) %}[{{ u }}]{% endcall %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[a][b]"
+ },
+ {
+  "name": "macro_caller_undefined",
+  "source": "{% macro m() %}{{ caller is undefined }}{% endmacro %}{{ m() }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True"
+ },
+ {
+  "name": "macro_closure",
+  "source": "{% set greeting = 'Hi' %}{% macro m(n) %}{{ greeting }} {{ n }}{% endmacro %}{{ m('x') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "Hi x"
+ },
+ {
+  "name": "macro_recursion",
+  "source": "{% macro fact(n) %}{% if n <= 1 %}1{% else %}{{ n * fact(n - 1)|int }}{% endif %}{% endmacro %}{{ fact(5) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "120"
+ },
+ {
+  "name": "macro_call_star_args",
+  "source": "{% macro m(a, b) %}{{ a }}{{ b }}{% endmacro %}{{ m(*[1, 2]) }}|{{ m(**{'a': 3, 'b': 4}) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "12|34"
+ },
+ {
+  "name": "macro_string_attr",
+  "source": "{% macro m() %}x{% endmacro %}{{ m.name }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "m"
+ },
+ {
+  "name": "inherit_layout",
+  "source": "{% include 'layout' %}",
+  "ctx": {},
+  "templates": {
+   "layout": "|{% block block1 %}block 1 from layout{% endblock %}|{% block block2 %}block 2 from layout{% endblock %}|{% block block3 %}{% block block4 %}nested block 4 from layout{% endblock %}{% endblock %}|",
+   "level1": "{% extends 'layout' %}{% block block1 %}block 1 from level1{% endblock %}",
+   "level2": "{% extends 'level1' %}{% block block2 %}{% block block5 %}nested block 5 from level2{% endblock %}{% endblock %}",
+   "level3": "{% extends 'level2' %}{% block block5 %}block 5 from level3{% endblock %}{% block block4 %}block 4 from level3{% endblock %}",
+   "level4": "{% extends 'level3' %}{% block block3 %}block 3 from level4{% endblock %}"
+  },
+  "env": {},
+  "output": "|block 1 from layout|block 2 from layout|nested block 4 from layout|"
+ },
+ {
+  "name": "inherit_level1",
+  "source": "{% include 'level1' %}",
+  "ctx": {},
+  "templates": {
+   "layout": "|{% block block1 %}block 1 from layout{% endblock %}|{% block block2 %}block 2 from layout{% endblock %}|{% block block3 %}{% block block4 %}nested block 4 from layout{% endblock %}{% endblock %}|",
+   "level1": "{% extends 'layout' %}{% block block1 %}block 1 from level1{% endblock %}",
+   "level2": "{% extends 'level1' %}{% block block2 %}{% block block5 %}nested block 5 from level2{% endblock %}{% endblock %}",
+   "level3": "{% extends 'level2' %}{% block block5 %}block 5 from level3{% endblock %}{% block block4 %}block 4 from level3{% endblock %}",
+   "level4": "{% extends 'level3' %}{% block block3 %}block 3 from level4{% endblock %}"
+  },
+  "env": {},
+  "output": "|block 1 from level1|block 2 from layout|nested block 4 from layout|"
+ },
+ {
+  "name": "inherit_level2",
+  "source": "{% include 'level2' %}",
+  "ctx": {},
+  "templates": {
+   "layout": "|{% block block1 %}block 1 from layout{% endblock %}|{% block block2 %}block 2 from layout{% endblock %}|{% block block3 %}{% block block4 %}nested block 4 from layout{% endblock %}{% endblock %}|",
+   "level1": "{% extends 'layout' %}{% block block1 %}block 1 from level1{% endblock %}",
+   "level2": "{% extends 'level1' %}{% block block2 %}{% block block5 %}nested block 5 from level2{% endblock %}{% endblock %}",
+   "level3": "{% extends 'level2' %}{% block block5 %}block 5 from level3{% endblock %}{% block block4 %}block 4 from level3{% endblock %}",
+   "level4": "{% extends 'level3' %}{% block block3 %}block 3 from level4{% endblock %}"
+  },
+  "env": {},
+  "output": "|block 1 from level1|nested block 5 from level2|nested block 4 from layout|"
+ },
+ {
+  "name": "inherit_level3",
+  "source": "{% include 'level3' %}",
+  "ctx": {},
+  "templates": {
+   "layout": "|{% block block1 %}block 1 from layout{% endblock %}|{% block block2 %}block 2 from layout{% endblock %}|{% block block3 %}{% block block4 %}nested block 4 from layout{% endblock %}{% endblock %}|",
+   "level1": "{% extends 'layout' %}{% block block1 %}block 1 from level1{% endblock %}",
+   "level2": "{% extends 'level1' %}{% block block2 %}{% block block5 %}nested block 5 from level2{% endblock %}{% endblock %}",
+   "level3": "{% extends 'level2' %}{% block block5 %}block 5 from level3{% endblock %}{% block block4 %}block 4 from level3{% endblock %}",
+   "level4": "{% extends 'level3' %}{% block block3 %}block 3 from level4{% endblock %}"
+  },
+  "env": {},
+  "output": "|block 1 from level1|block 5 from level3|block 4 from level3|"
+ },
+ {
+  "name": "inherit_level4",
+  "source": "{% include 'level4' %}",
+  "ctx": {},
+  "templates": {
+   "layout": "|{% block block1 %}block 1 from layout{% endblock %}|{% block block2 %}block 2 from layout{% endblock %}|{% block block3 %}{% block block4 %}nested block 4 from layout{% endblock %}{% endblock %}|",
+   "level1": "{% extends 'layout' %}{% block block1 %}block 1 from level1{% endblock %}",
+   "level2": "{% extends 'level1' %}{% block block2 %}{% block block5 %}nested block 5 from level2{% endblock %}{% endblock %}",
+   "level3": "{% extends 'level2' %}{% block block5 %}block 5 from level3{% endblock %}{% block block4 %}block 4 from level3{% endblock %}",
+   "level4": "{% extends 'level3' %}{% block block3 %}block 3 from level4{% endblock %}"
+  },
+  "env": {},
+  "output": "|block 1 from level1|block 5 from level3|block 3 from level4|"
+ },
+ {
+  "name": "inherit_super",
+  "source": "{% extends 'parent' %}{% block b %}{{ super() }}+child{% endblock %}",
+  "ctx": {},
+  "templates": {
+   "parent": "[{% block b %}parent{% endblock %}]"
+  },
+  "env": {},
+  "output": "[parent+child]"
+ },
+ {
+  "name": "inherit_double_super",
+  "source": "{% extends 'mid' %}{% block b %}{{ super.super() }}+leaf{% endblock %}",
+  "ctx": {},
+  "templates": {
+   "mid": "{% extends 'base' %}{% block b %}{{ super() }}+mid{% endblock %}",
+   "base": "[{% block b %}base{% endblock %}]"
+  },
+  "env": {},
+  "output": "[base+leaf]"
+ },
+ {
+  "name": "inherit_scoped_block",
+  "source": "{% extends 'base' %}{% block item %}[{{ item }}]{% endblock %}",
+  "ctx": {},
+  "templates": {
+   "base": "{% for item in [1, 2] %}{% block item scoped %}{{ item }}{% endblock %}{% endfor %}"
+  },
+  "env": {},
+  "output": "[1][2]"
+ },
+ {
+  "name": "inherit_unscoped_block_no_loopvar",
+  "source": "{% extends 'base' %}{% block item %}[{{ item|default('?') }}]{% endblock %}",
+  "ctx": {},
+  "templates": {
+   "base": "{% for item in [1, 2] %}{% block item %}x{% endblock %}{% endfor %}"
+  },
+  "env": {},
+  "output": "[?][?]"
+ },
+ {
+  "name": "inherit_data_outside_block_dropped",
+  "source": "{% extends 'base' %}IGNORED{% block b %}B{% endblock %}ALSO IGNORED",
+  "ctx": {},
+  "templates": {
+   "base": "({% block b %}{% endblock %})"
+  },
+  "env": {},
+  "output": "(B)"
+ },
+ {
+  "name": "inherit_set_before_extends",
+  "source": "{% set x = 42 %}{% extends 'base' %}{% block b %}{{ x }}{% endblock %}",
+  "ctx": {},
+  "templates": {
+   "base": "[{% block b %}{% endblock %}]"
+  },
+  "env": {},
+  "output": "[42]"
+ },
+ {
+  "name": "inherit_self_ref",
+  "source": "{% block title %}T{% endblock %}|{{ self.title() }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "T|T"
+ },
+ {
+  "name": "inherit_block_in_for",
+  "source": "{% for i in [1, 2] %}{% block x scoped %}{{ i }}{% endblock %}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "12"
+ },
+ {
+  "name": "inherit_required_provided",
+  "source": "{% extends 'base' %}{% block b %}ok{% endblock %}",
+  "ctx": {},
+  "templates": {
+   "base": "[{% block b required %}{% endblock %}]"
+  },
+  "env": {},
+  "output": "[ok]"
+ },
+ {
+  "name": "inherit_required_missing_err",
+  "source": "{% extends 'base' %}",
+  "ctx": {},
+  "templates": {
+   "base": "[{% block b required %}{% endblock %}]"
+  },
+  "env": {},
+  "error_type": "TemplateRuntimeError",
+  "error": "Required block 'b' not found"
+ },
+ {
+  "name": "inherit_dynamic_extends",
+  "source": "{% extends which %}{% block b %}child{% endblock %}",
+  "ctx": {
+   "which": "p2"
+  },
+  "templates": {
+   "p1": "1:{% block b %}{% endblock %}",
+   "p2": "2:{% block b %}{% endblock %}"
+  },
+  "env": {},
+  "output": "2:child"
+ },
+ {
+  "name": "inherit_super_in_nested",
+  "source": "{% extends 'base' %}{% block outer %}{{ super() }}/{% block inner %}I{% endblock %}{% endblock %}",
+  "ctx": {},
+  "templates": {
+   "base": "{% block outer %}O{% block inner %}i{% endblock %}{% endblock %}"
+  },
+  "env": {},
+  "output": "OI/I"
+ },
+ {
+  "name": "extends_multiple_err",
+  "source": "{% extends 'a' %}{% extends 'b' %}",
+  "ctx": {},
+  "templates": {
+   "a": "A",
+   "b": "B"
+  },
+  "env": {},
+  "error_type": "TemplateRuntimeError",
+  "error": "extended multiple times"
+ },
+ {
+  "name": "include_basic",
+  "source": "A{% include 'inc' %}C",
+  "ctx": {},
+  "templates": {
+   "inc": "B{{ x|default('') }}"
+  },
+  "env": {},
+  "output": "ABC"
+ },
+ {
+  "name": "include_with_context",
+  "source": "{% set x = 42 %}{% include 'inc' %}",
+  "ctx": {},
+  "templates": {
+   "inc": "[{{ x|default('no') }}]"
+  },
+  "env": {},
+  "output": "[42]"
+ },
+ {
+  "name": "include_without_context",
+  "source": "{% set x = 42 %}{% include 'inc' without context %}",
+  "ctx": {},
+  "templates": {
+   "inc": "[{{ x|default('no') }}]"
+  },
+  "env": {},
+  "output": "[no]"
+ },
+ {
+  "name": "include_ignore_missing",
+  "source": "A{% include 'nope' ignore missing %}B",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "no loader for this environment specified"
+ },
+ {
+  "name": "include_missing_err",
+  "source": "A{% include 'nope' %}B",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "no loader for this environment specified"
+ },
+ {
+  "name": "include_list_fallback",
+  "source": "{% include ['nope', 'inc'] %}",
+  "ctx": {},
+  "templates": {
+   "inc": "found"
+  },
+  "env": {},
+  "output": "found"
+ },
+ {
+  "name": "include_loop_var_visible",
+  "source": "{% for i in [1, 2] %}{% include 'inc' %}{% endfor %}",
+  "ctx": {},
+  "templates": {
+   "inc": "[{{ i }}]"
+  },
+  "env": {},
+  "output": "[1][2]"
+ },
+ {
+  "name": "import_module",
+  "source": "{% import 'forms' as forms %}{{ forms.field('user') }}",
+  "ctx": {},
+  "templates": {
+   "forms": "{% macro field(name) %}<input name=\"{{ name }}\">{% endmacro %}"
+  },
+  "env": {},
+  "output": "<input name=\"user\">"
+ },
+ {
+  "name": "import_exported_var",
+  "source": "{% import 'mod' as m %}{{ m.answer }}",
+  "ctx": {},
+  "templates": {
+   "mod": "{% set answer = 42 %}"
+  },
+  "env": {},
+  "output": "42"
+ },
+ {
+  "name": "from_import",
+  "source": "{% from 'forms' import field, label as lbl %}{{ field('u') }}{{ lbl() }}",
+  "ctx": {},
+  "templates": {
+   "forms": "{% macro field(n) %}F:{{ n }}{% endmacro %}{% macro label() %}L{% endmacro %}"
+  },
+  "env": {},
+  "output": "F:uL"
+ },
+ {
+  "name": "import_without_context_default",
+  "source": "{% set x = 1 %}{% import 'mod' as m %}{{ m.echo() }}",
+  "ctx": {},
+  "templates": {
+   "mod": "{% macro echo() %}{{ x|default('nox') }}{% endmacro %}"
+  },
+  "env": {},
+  "output": "nox"
+ },
+ {
+  "name": "import_with_context",
+  "source": "{% set x = 1 %}{% import 'mod' as m with context %}{{ m.echo() }}",
+  "ctx": {},
+  "templates": {
+   "mod": "{% macro echo() %}{{ x|default('nox') }}{% endmacro %}"
+  },
+  "env": {},
+  "output": "1"
+ },
+ {
+  "name": "from_import_missing_name",
+  "source": "{% from 'mod' import nothing %}{{ nothing|default('undef') }}",
+  "ctx": {},
+  "templates": {
+   "mod": "x"
+  },
+  "env": {},
+  "output": "undef"
+ },
+ {
+  "name": "undef_default_print",
+  "source": "[{{ missing }}]",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[]"
+ },
+ {
+  "name": "undef_default_iter",
+  "source": "{% for x in missing %}x{% endfor %}done",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "done"
+ },
+ {
+  "name": "undef_default_attr_err",
+  "source": "{{ missing.attr }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "UndefinedError",
+  "error": "'missing' is undefined"
+ },
+ {
+  "name": "undef_default_compare",
+  "source": "{{ missing == missing2 }}|{{ missing == 1 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False"
+ },
+ {
+  "name": "undef_add_err",
+  "source": "{{ missing + 1 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "UndefinedError",
+  "error": "'missing' is undefined"
+ },
+ {
+  "name": "undef_chainable",
+  "source": "[{{ missing.a.b['c'].d }}]",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "undefined": "chainable"
+  },
+  "output": "[]"
+ },
+ {
+  "name": "undef_debug_print",
+  "source": "[{{ missing }}]",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "undefined": "debug"
+  },
+  "output": "[{{ missing }}]"
+ },
+ {
+  "name": "undef_strict_print_err",
+  "source": "[{{ missing }}]",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "undefined": "strict"
+  },
+  "error_type": "UndefinedError",
+  "error": "'missing' is undefined"
+ },
+ {
+  "name": "undef_strict_defined_test",
+  "source": "{{ missing is defined }}|{{ given is defined }}",
+  "ctx": {
+   "given": 1
+  },
+  "templates": {},
+  "env": {
+   "undefined": "strict"
+  },
+  "output": "False|True"
+ },
+ {
+  "name": "undef_hint_getattr",
+  "source": "{{ d.missing.fail }}",
+  "ctx": {
+   "d": {}
+  },
+  "templates": {},
+  "env": {},
+  "error_type": "UndefinedError",
+  "error": "'dict object' has no attribute 'missing'"
+ },
+ {
+  "name": "filter_block",
+  "source": "{% filter upper %}foo {{ 'bar' }}{% endfilter %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "FOO BAR"
+ },
+ {
+  "name": "filter_block_chain",
+  "source": "{% filter lower|capitalize %}HELLO WORLD{% endfilter %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "Hello world"
+ },
+ {
+  "name": "whitespace_full",
+  "source": "  {% if true %}\n    x\n  {% endif %}  ",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "trim_blocks": true,
+   "lstrip_blocks": true
+  },
+  "output": "    x\n  "
+ },
+ {
+  "name": "raw_renders_literal",
+  "source": "{% raw %}{{ not evaluated }}{% endraw %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "{{ not evaluated }}"
+ },
+ {
+  "name": "err_no_filter",
+  "source": "{{ 1|nosuchfilter }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TemplateAssertionError",
+  "error": "No filter named 'nosuchfilter'."
+ },
+ {
+  "name": "err_no_test",
+  "source": "{{ 1 is nosuchtest }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TemplateAssertionError",
+  "error": "No test named 'nosuchtest'."
+ },
+ {
+  "name": "err_unhashable",
+  "source": "{{ {[]: 1} }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "unhashable type: 'list'"
+ },
+ {
+  "name": "err_call_int",
+  "source": "{{ 1() }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "'int' object is not callable"
+ },
+ {
+  "name": "err_iterate_int",
+  "source": "{% for x in 7 %}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "'int' object is not iterable"
+ },
+ {
+  "name": "err_compare_mixed",
+  "source": "{{ 1 < 'x' }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "'<' not supported between instances of 'int' and 'str'"
+ },
+ {
+  "name": "err_add_mixed",
+  "source": "{{ 1 + 'x' }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "unsupported operand type(s) for +: 'int' and 'str'"
+ },
+ {
+  "name": "f_capitalize",
+  "source": "{{ \"foo bar\"|capitalize }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "Foo bar"
+ },
+ {
+  "name": "f_center",
+  "source": "{{ \"foo\"|center(9) }}|{{ \"foo\"|center(2) }}|{{ \"fooo\"|center(9) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "   foo   |foo|   fooo  "
+ },
+ {
+  "name": "f_default",
+  "source": "{{ missing|default('no') }}|{{ false|default('no') }}|{{ false|default('no', true) }}|{{ given|default('no') }}",
+  "ctx": {
+   "given": "yes"
+  },
+  "templates": {},
+  "env": {},
+  "output": "no|False|no|yes"
+ },
+ {
+  "name": "f_dictsort_0",
+  "source": "{{ {'aa': 0, 'b': 1, 'c': 2, 'AB': 3}|dictsort }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[('aa', 0), ('AB', 3), ('b', 1), ('c', 2)]"
+ },
+ {
+  "name": "f_dictsort_1",
+  "source": "{{ {'aa': 0, 'b': 1, 'c': 2, 'AB': 3}|dictsort(true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[('AB', 3), ('aa', 0), ('b', 1), ('c', 2)]"
+ },
+ {
+  "name": "f_dictsort_2",
+  "source": "{{ {'aa': 0, 'b': 1, 'c': 2, 'AB': 3}|dictsort(by='value') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[('aa', 0), ('b', 1), ('c', 2), ('AB', 3)]"
+ },
+ {
+  "name": "f_dictsort_3",
+  "source": "{{ {'aa': 0, 'b': 1, 'c': 2, 'AB': 3}|dictsort(reverse=true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[('c', 2), ('b', 1), ('AB', 3), ('aa', 0)]"
+ },
+ {
+  "name": "f_batch",
+  "source": "{{ foo|batch(3)|list }}|{{ foo|batch(3, 'X')|list }}",
+  "ctx": {
+   "foo": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "[[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]|[[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 'X', 'X']]"
+ },
+ {
+  "name": "f_slice",
+  "source": "{{ foo|slice(3)|list }}|{{ foo|slice(3, 'X')|list }}",
+  "ctx": {
+   "foo": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "[[0, 1, 2, 3], [4, 5, 6], [7, 8, 9]]|[[0, 1, 2, 3], [4, 5, 6, 'X'], [7, 8, 9, 'X']]"
+ },
+ {
+  "name": "f_escape",
+  "source": "{{ '<\">&'|escape }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "&lt;&#34;&gt;&amp;"
+ },
+ {
+  "name": "f_trim_default",
+  "source": "{{ '  ..stays..  '|trim }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "..stays.."
+ },
+ {
+  "name": "f_trim_chars",
+  "source": "{{ '  ..stays..  '|trim('.') }}|{{ '  ..stays..  '|trim(' .') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "  ..stays..  |stays"
+ },
+ {
+  "name": "f_striptags",
+  "source": "{{ s|striptags }}",
+  "ctx": {
+   "s": "  <p>just a small   \n <a href=\"#\">example</a> link</p>\n<p>to a webpage</p> <!-- <p>and some commented stuff</p> -->"
+  },
+  "templates": {},
+  "env": {},
+  "output": "just a small example link to a webpage"
+ },
+ {
+  "name": "f_filesizeformat",
+  "source": "{{ 100|filesizeformat }}|{{ 1000|filesizeformat }}|{{ 1000000|filesizeformat }}|{{ 1000000000|filesizeformat }}|{{ 1000000000000|filesizeformat }}|{{ 100|filesizeformat(true) }}|{{ 1000|filesizeformat(true) }}|{{ 1000000|filesizeformat(true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "100 Bytes|1.0 kB|1.0 MB|1.0 GB|1.0 TB|100 Bytes|1000 Bytes|976.6 KiB"
+ },
+ {
+  "name": "f_filesizeformat2",
+  "source": "{{ 300|filesizeformat }}|{{ 3000|filesizeformat }}|{{ 3000000|filesizeformat }}|{{ 3000000000|filesizeformat }}|{{ 3000000000000|filesizeformat }}|{{ 300|filesizeformat(true) }}|{{ 3000|filesizeformat(true) }}|{{ 3000000|filesizeformat(true) }}|{{ 1|filesizeformat }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "300 Bytes|3.0 kB|3.0 MB|3.0 GB|3.0 TB|300 Bytes|2.9 KiB|2.9 MiB|1 Byte"
+ },
+ {
+  "name": "f_first",
+  "source": "{{ foo|first }}",
+  "ctx": {
+   "foo": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "0"
+ },
+ {
+  "name": "f_float_42",
+  "source": "{{ '42'|float }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "42.0"
+ },
+ {
+  "name": "f_float_abc",
+  "source": "{{ 'abc'|float }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "0.0"
+ },
+ {
+  "name": "f_float_32.32",
+  "source": "{{ '32.32'|float }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "32.32"
+ },
+ {
+  "name": "f_float_default",
+  "source": "{{ 'abc'|float(default=1.0) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1.0"
+ },
+ {
+  "name": "f_format",
+  "source": "{{ '%s|%s'|format('a', 'b') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "a|b"
+ },
+ {
+  "name": "f_indent",
+  "source": "{{ s|indent(2, false, false) }}X{{ s|indent(2, false, true) }}X{{ s|indent(2, true, false) }}X{{ s|indent(2, true, true) }}",
+  "ctx": {
+   "s": "\nfoo bar\n\"baz\"\n"
+  },
+  "templates": {},
+  "env": {},
+  "output": "\n  foo bar\n  \"baz\"\nX\n  foo bar\n  \"baz\"\n  X  \n  foo bar\n  \"baz\"\nX  \n  foo bar\n  \"baz\"\n  "
+ },
+ {
+  "name": "f_indent_width_string",
+  "source": "{{ 'jinja\nflask'|indent('>>> ', true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": ">>> jinja\n>>> flask"
+ },
+ {
+  "name": "f_indent_oneline",
+  "source": "{{ 'jinja'|indent }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "jinja"
+ },
+ {
+  "name": "f_int_42",
+  "source": "{{ '42'|int }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "42"
+ },
+ {
+  "name": "f_int_abc",
+  "source": "{{ 'abc'|int }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "0"
+ },
+ {
+  "name": "f_int_32.32",
+  "source": "{{ '32.32'|int }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "32"
+ },
+ {
+  "name": "f_int_123456789012",
+  "source": "{{ '12345678901234567890'|int }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "known_divergence": "int64: Python 任意精度整数超出 int64 范围",
+  "output": "12345678901234567890"
+ },
+ {
+  "name": "f_int_base_0x4d32",
+  "source": "{{ '0x4d32'|int(0, 16) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "19762"
+ },
+ {
+  "name": "f_int_base_011",
+  "source": "{{ '011'|int(0, 8) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "9"
+ },
+ {
+  "name": "f_int_base_0x33Z",
+  "source": "{{ '0x33Z'|int(0, 16) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "0"
+ },
+ {
+  "name": "f_int_default",
+  "source": "{{ 'abc'|int(default=42) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "42"
+ },
+ {
+  "name": "f_join",
+  "source": "{{ [1, 2, 3]|join('|') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1|2|3"
+ },
+ {
+  "name": "f_join_autoescape",
+  "source": "{{ [\"<foo>\", \"<span>foo</span>\"|safe]|join }}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "&lt;foo&gt;<span>foo</span>"
+ },
+ {
+  "name": "f_join_attribute",
+  "source": "{{ users|join(', ', 'username') }}",
+  "ctx": {
+   "users": [
+    {
+     "username": "foo"
+    },
+    {
+     "username": "bar"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "foo, bar"
+ },
+ {
+  "name": "f_last",
+  "source": "{{ foo|last }}",
+  "ctx": {
+   "foo": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "9"
+ },
+ {
+  "name": "f_length",
+  "source": "{{ 'hello world'|length }}|{{ [1,2,3]|length }}|{{ {'a':1}|length }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "11|3|1"
+ },
+ {
+  "name": "f_lower",
+  "source": "{{ 'FOO'|lower }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "foo"
+ },
+ {
+  "name": "f_items",
+  "source": "{{ d|items|list }}",
+  "ctx": {
+   "d": {
+    "a": "x",
+    "b": "y"
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "[('a', 'x'), ('b', 'y')]"
+ },
+ {
+  "name": "f_items_undefined",
+  "source": "{{ missing|items|list }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[]"
+ },
+ {
+  "name": "f_pprint",
+  "source": "{{ l|pprint }}",
+  "ctx": {
+   "l": [
+    1,
+    [
+     2,
+     "three"
+    ],
+    {
+     "k": "v"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "[1, [2, 'three'], {'k': 'v'}]"
+ },
+ {
+  "name": "f_string",
+  "source": "{{ obj|string }}",
+  "ctx": {
+   "obj": [
+    1,
+    2,
+    3
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "[1, 2, 3]"
+ },
+ {
+  "name": "f_title",
+  "source": "{{ 'foo bar'|title }}|{{ \"foo's bar\"|title }}|{{ 'foo-bar'|title }}|{{ 'foo\tbar'|title }}|{{ 'FOO\tBAR'|title }}|{{ 'foo (bar)'|title }}|{{ 'foo {bar}'|title }}|{{ 'foo [bar]'|title }}|{{ 'foo <bar>'|title }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "Foo Bar|Foo's Bar|Foo-Bar|Foo\tBar|Foo\tBar|Foo (Bar)|Foo {Bar}|Foo [Bar]|Foo <Bar>"
+ },
+ {
+  "name": "f_truncate",
+  "source": "{{ data|truncate(15, true, '>>>') }}|{{ data|truncate(15, false, '>>>') }}|{{ smalldata|truncate(15) }}",
+  "ctx": {
+   "data": "foobar baz barfoobar baz barfoobar baz barfoobar baz barfoobar baz barfoobar baz barfoobar baz barfoobar baz barfoobar baz barfoobar baz bar",
+   "smalldata": "foobar baz bar"
+  },
+  "templates": {},
+  "env": {},
+  "output": "foobar baz b>>>|foobar baz>>>|foobar baz bar"
+ },
+ {
+  "name": "f_truncate_very_short",
+  "source": "{{ 'foo bar baz'|truncate(9) }}|{{ 'foo bar baz'|truncate(9, true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "foo bar baz|foo bar baz"
+ },
+ {
+  "name": "f_truncate_end_length",
+  "source": "{{ 'Joel is a slug'|truncate(7, true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "Joel..."
+ },
+ {
+  "name": "f_upper",
+  "source": "{{ 'foo'|upper }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "FOO"
+ },
+ {
+  "name": "f_urlize",
+  "source": "{{ \"foo example.org bar\"|urlize }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "foo <a href=\"https://example.org\" rel=\"noopener\">example.org</a> bar"
+ },
+ {
+  "name": "f_urlize_https",
+  "source": "{{ \"foo https://www.example.com/ bar\"|urlize }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "foo <a href=\"https://www.example.com/\" rel=\"noopener\">https://www.example.com/</a> bar"
+ },
+ {
+  "name": "f_urlize_mail",
+  "source": "{{ \"foo contact@example.com bar\"|urlize }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "foo <a href=\"mailto:contact@example.com\">contact@example.com</a> bar"
+ },
+ {
+  "name": "f_urlize_target",
+  "source": "{{ \"foo example.org bar\"|urlize(target=\"_blank\") }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "foo <a href=\"https://example.org\" rel=\"noopener\" target=\"_blank\">example.org</a> bar"
+ },
+ {
+  "name": "f_urlize_trim",
+  "source": "{{ \"foo http://www.example.com/longurl bar\"|urlize(10, true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "foo <a href=\"http://www.example.com/longurl\" rel=\"nofollow noopener\">http://www...</a> bar"
+ },
+ {
+  "name": "f_wordcount",
+  "source": "{{ 'foo bar baz'|wordcount }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "3"
+ },
+ {
+  "name": "f_block_filter",
+  "source": "{% filter lower|escape %}<HEHE>{% endfilter %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "&lt;hehe&gt;"
+ },
+ {
+  "name": "f_chaining",
+  "source": "{{ ['<foo>', '<bar>']|first|upper|escape }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "&lt;FOO&gt;"
+ },
+ {
+  "name": "f_sum",
+  "source": "{{ [1, 2, 3, 4, 5, 6]|sum }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "21"
+ },
+ {
+  "name": "f_sum_attributes",
+  "source": "{{ values|sum('value') }}",
+  "ctx": {
+   "values": [
+    {
+     "value": 23
+    },
+    {
+     "value": 1
+    },
+    {
+     "value": 18
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "42"
+ },
+ {
+  "name": "f_sum_attributes_nested",
+  "source": "{{ values|sum('real.value') }}",
+  "ctx": {
+   "values": [
+    {
+     "real": {
+      "value": 23
+     }
+    },
+    {
+     "real": {
+      "value": 1
+     }
+    },
+    {
+     "real": {
+      "value": 18
+     }
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "42"
+ },
+ {
+  "name": "f_sum_start",
+  "source": "{{ [1, 2]|sum(start=5) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "8"
+ },
+ {
+  "name": "f_abs",
+  "source": "{{ -1|abs }}|{{ 1|abs }}|{{ -1.5|abs }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1|1|1.5"
+ },
+ {
+  "name": "f_round_positive",
+  "source": "{{ 2.7|round }}|{{ 2.1|round }}|{{ 2.1234|round(3, 'floor') }}|{{ 2.1|round(0, 'ceil') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "3.0|2.0|2.123|3.0"
+ },
+ {
+  "name": "f_round_negative",
+  "source": "{{ 21.3|round(-1)}}|{{ 21.3|round(-1, 'ceil')}}|{{ 21.3|round(-1, 'floor')}}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "20.0|30.0|20.0"
+ },
+ {
+  "name": "f_round_halfeven",
+  "source": "{{ 0.5|round }}|{{ 1.5|round }}|{{ 2.5|round }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "0.0|2.0|2.0"
+ },
+ {
+  "name": "f_xmlattr",
+  "source": "{{ {'foo': 42, 'bar': 23, 'fish': none, 'spam': missing, 'blub:blub': '<?>'}|xmlattr }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": " foo=\"42\" bar=\"23\" blub:blub=\"&lt;?&gt;\""
+ },
+ {
+  "name": "f_sort1",
+  "source": "{{ [2, 3, 1]|sort }}|{{ [2, 3, 1]|sort(true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[1, 2, 3]|[3, 2, 1]"
+ },
+ {
+  "name": "f_sort2",
+  "source": "{{ \"\".join([\"c\", \"A\", \"b\", \"D\"]|sort) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "AbcD"
+ },
+ {
+  "name": "f_sort3",
+  "source": "{{ ['foo', 'Bar', 'blah']|sort }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "['Bar', 'blah', 'foo']"
+ },
+ {
+  "name": "f_sort4",
+  "source": "{{ items|sort(attribute='value')|join(',', 'value') }}",
+  "ctx": {
+   "items": [
+    {
+     "value": 3
+    },
+    {
+     "value": 2
+    },
+    {
+     "value": 4
+    },
+    {
+     "value": 1
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "1,2,3,4"
+ },
+ {
+  "name": "f_sort5",
+  "source": "{{ items|sort(attribute='value.0')|join(',', 'value.0') }}",
+  "ctx": {
+   "items": [
+    {
+     "value": [
+      3
+     ]
+    },
+    {
+     "value": [
+      2
+     ]
+    },
+    {
+     "value": [
+      4
+     ]
+    },
+    {
+     "value": [
+      1
+     ]
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "1,2,3,4"
+ },
+ {
+  "name": "f_sort6",
+  "source": "{{ items|sort(attribute='value1,value2')|join(',', 'value1') }}",
+  "ctx": {
+   "items": [
+    {
+     "value1": 3,
+     "value2": 1
+    },
+    {
+     "value1": 2,
+     "value2": 2
+    },
+    {
+     "value1": 2,
+     "value2": 1
+    },
+    {
+     "value1": 1,
+     "value2": 99
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "1,2,2,3"
+ },
+ {
+  "name": "f_sort_multi_render",
+  "source": "{{ items|sort(attribute='a,b')|map(attribute='b')|join(',') }}",
+  "ctx": {
+   "items": [
+    {
+     "a": 1,
+     "b": 9
+    },
+    {
+     "a": 1,
+     "b": 2
+    },
+    {
+     "a": 0,
+     "b": 5
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "5,2,9"
+ },
+ {
+  "name": "f_unique",
+  "source": "{{ \"\".join([\"b\", \"A\", \"a\", \"b\"]|unique) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "bA"
+ },
+ {
+  "name": "f_unique_case_sensitive",
+  "source": "{{ \"\".join([\"b\", \"A\", \"a\", \"b\"]|unique(true)) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "bAa"
+ },
+ {
+  "name": "f_unique_attribute",
+  "source": "{{ items|unique(attribute='value')|join(',', 'value') }}",
+  "ctx": {
+   "items": [
+    {
+     "value": 3
+    },
+    {
+     "value": 2
+    },
+    {
+     "value": 4
+    },
+    {
+     "value": 1
+    },
+    {
+     "value": 2
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "3,2,4,1"
+ },
+ {
+  "name": "f_min",
+  "source": "{{ ['a', 'B']|min }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "a"
+ },
+ {
+  "name": "f_min_cs",
+  "source": "{{ ['a', 'B']|min(case_sensitive=true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "B"
+ },
+ {
+  "name": "f_min_empty",
+  "source": "{{ []|min }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": ""
+ },
+ {
+  "name": "f_max",
+  "source": "{{ ['a', 'B']|max }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "B"
+ },
+ {
+  "name": "f_max_cs",
+  "source": "{{ ['a', 'B']|max(case_sensitive=true) }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "a"
+ },
+ {
+  "name": "f_max_empty",
+  "source": "{{ []|max }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": ""
+ },
+ {
+  "name": "f_min_attribute",
+  "source": "{{ items|min(attribute='value') }}",
+  "ctx": {
+   "items": [
+    {
+     "value": 5
+    },
+    {
+     "value": 1
+    },
+    {
+     "value": 9
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "{'value': 1}"
+ },
+ {
+  "name": "f_max_attribute",
+  "source": "{{ items|max(attribute='value') }}",
+  "ctx": {
+   "items": [
+    {
+     "value": 5
+    },
+    {
+     "value": 1
+    },
+    {
+     "value": 9
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "{'value': 9}"
+ },
+ {
+  "name": "f_groupby",
+  "source": "{% for grouper, list in [{'foo': 1, 'bar': 2}, {'foo': 2, 'bar': 3}, {'foo': 1, 'bar': 1}, {'foo': 3, 'bar': 4}]|groupby('foo') %}{{ grouper }}{% for x in list %}: {{ x.foo }}, {{ x.bar }}{% endfor %}|{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1: 1, 2: 1, 1|2: 2, 3|3: 3, 4|"
+ },
+ {
+  "name": "f_groupby_tuple_index",
+  "source": "{% for grouper, list in [('a', 1), ('a', 2), ('b', 1)]|groupby(0) %}{{ grouper }}{% for x in list %}:{{ x.1 }}{% endfor %}|{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "a:1:2|b:1|"
+ },
+ {
+  "name": "f_groupby_multidot",
+  "source": "{% for year, list in articles|groupby('date.year') %}{{ year }}{% for x in list %}[{{ x.title }}]{% endfor %}|{% endfor %}",
+  "ctx": {
+   "articles": [
+    {
+     "title": "aha",
+     "date": {
+      "day": 1,
+      "month": 1,
+      "year": 1970
+     }
+    },
+    {
+     "title": "interesting",
+     "date": {
+      "day": 2,
+      "month": 1,
+      "year": 1970
+     }
+    },
+    {
+     "title": "really?",
+     "date": {
+      "day": 3,
+      "month": 1,
+      "year": 1970
+     }
+    },
+    {
+     "title": "totally not",
+     "date": {
+      "day": 1,
+      "month": 1,
+      "year": 1971
+     }
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "1970[aha][interesting][really?]|1971[totally not]|"
+ },
+ {
+  "name": "f_groupby_default",
+  "source": "{% for city, items in users|groupby('city', default='NY') %}{{ city }}: {{ items|map(attribute='name')|join(', ') }}|{% endfor %}",
+  "ctx": {
+   "users": [
+    {
+     "name": "emma",
+     "city": "NY"
+    },
+    {
+     "name": "smith",
+     "city": "WA"
+    },
+    {
+     "name": "john"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "NY: emma, john|WA: smith|"
+ },
+ {
+  "name": "f_groupby_nocase",
+  "source": "{% for k, vs in data|groupby('k', case_sensitive=false) %}{{ k }}={{ vs|join(':', 'v') }}|{% endfor %}",
+  "ctx": {
+   "data": [
+    {
+     "k": "a",
+     "v": 1
+    },
+    {
+     "k": "B",
+     "v": 2
+    },
+    {
+     "k": "b",
+     "v": 3
+    },
+    {
+     "k": "A",
+     "v": 4
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "a=1:4|B=2:3|"
+ },
+ {
+  "name": "f_groupby_case",
+  "source": "{% for k, vs in data|groupby('k', case_sensitive=true) %}{{ k }}={{ vs|join(':', 'v') }}|{% endfor %}",
+  "ctx": {
+   "data": [
+    {
+     "k": "a",
+     "v": 1
+    },
+    {
+     "k": "B",
+     "v": 2
+    },
+    {
+     "k": "b",
+     "v": 3
+    },
+    {
+     "k": "A",
+     "v": 4
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "A=4|B=2|a=1|b=3|"
+ },
+ {
+  "name": "f_filtertag",
+  "source": "{% filter upper|replace('FOO', 'foo') %}foobar{% endfilter %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "fooBAR"
+ },
+ {
+  "name": "f_replace",
+  "source": "{{ string|replace('o', 42) }}",
+  "ctx": {
+   "string": "<foo>"
+  },
+  "templates": {},
+  "env": {},
+  "output": "<f4242>"
+ },
+ {
+  "name": "f_replace_autoescape",
+  "source": "{{ string|replace('o', 42) }}|{{ string|replace('<', 42) }}|{{ string|replace('o', ' '|safe) }}",
+  "ctx": {
+   "string": "<foo>"
+  },
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "&lt;f4242&gt;|42foo&gt;|&lt;f  &gt;"
+ },
+ {
+  "name": "f_forceescape",
+  "source": "{{ x|forceescape }}",
+  "ctx": {
+   "x": "<div />"
+  },
+  "templates": {},
+  "env": {},
+  "output": "&lt;div /&gt;"
+ },
+ {
+  "name": "f_safe",
+  "source": "{{ '<div>foo</div>'|safe }}|{{ '<div>foo</div>' }}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "<div>foo</div>|&lt;div&gt;foo&lt;/div&gt;"
+ },
+ {
+  "name": "f_urlencode_str",
+  "source": "{{ 'Hello, world!'|urlencode }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "Hello%2C%20world%21"
+ },
+ {
+  "name": "f_urlencode_unicode",
+  "source": "{{ 'Hello, world‽'|urlencode }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "Hello%2C%20world%E2%80%BD"
+ },
+ {
+  "name": "f_urlencode_dict",
+  "source": "{{ {'f': 1, 'z': 2}|urlencode }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "f=1&z=2"
+ },
+ {
+  "name": "f_urlencode_slash",
+  "source": "{{ '/path/to thing'|urlencode }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "/path/to%20thing"
+ },
+ {
+  "name": "f_simple_map",
+  "source": "{{ [\"1\", \"2\", \"3\"]|map(\"int\")|sum }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "6"
+ },
+ {
+  "name": "f_map_sum",
+  "source": "{{ [[1,2], [3], [4,5,6]]|map(\"sum\")|list }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[3, 3, 15]"
+ },
+ {
+  "name": "f_attribute_map",
+  "source": "{{ users|map(attribute=\"name\")|join(\"|\") }}",
+  "ctx": {
+   "users": [
+    {
+     "name": "john"
+    },
+    {
+     "name": "jane"
+    },
+    {
+     "name": "mike"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "john|jane|mike"
+ },
+ {
+  "name": "f_empty_map",
+  "source": "{{ none|map(\"upper\")|list }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[]"
+ },
+ {
+  "name": "f_map_default",
+  "source": "{{ users|map(attribute=\"lastname\", default=\"smith\")|join(\", \") }}",
+  "ctx": {
+   "users": [
+    {
+     "firstname": "john",
+     "lastname": "lennon"
+    },
+    {
+     "firstname": "jane",
+     "lastname": "edwards"
+    },
+    {
+     "firstname": "jon"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "lennon, edwards, smith"
+ },
+ {
+  "name": "f_map_default_list",
+  "source": "{{ users|map(attribute=\"lastname\", default=[\"smith\",\"x\"])|list }}",
+  "ctx": {
+   "users": [
+    {
+     "firstname": "john",
+     "lastname": "lennon"
+    },
+    {
+     "firstname": "jon"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "['lennon', ['smith', 'x']]"
+ },
+ {
+  "name": "f_simple_select",
+  "source": "{{ [1, 2, 3, 4, 5]|select(\"odd\")|join(\"|\") }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1|3|5"
+ },
+ {
+  "name": "f_bool_select",
+  "source": "{{ [none, false, 0, 1, 2, 3, 4, 5]|select|join(\"|\") }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1|2|3|4|5"
+ },
+ {
+  "name": "f_simple_reject",
+  "source": "{{ [1, 2, 3, 4, 5]|reject(\"odd\")|join(\"|\") }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "2|4"
+ },
+ {
+  "name": "f_bool_reject",
+  "source": "{{ [none, false, 0, 1, 2, 3, 4, 5]|reject|join(\"|\") }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "None|False|0"
+ },
+ {
+  "name": "f_simple_select_attr",
+  "source": "{{ users|selectattr(\"is_active\")|map(attribute=\"name\")|join(\"|\") }}",
+  "ctx": {
+   "users": [
+    {
+     "name": "john",
+     "is_active": true
+    },
+    {
+     "name": "jane",
+     "is_active": true
+    },
+    {
+     "name": "mike",
+     "is_active": false
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "john|jane"
+ },
+ {
+  "name": "f_simple_reject_attr",
+  "source": "{{ users|rejectattr(\"is_active\")|map(attribute=\"name\")|join(\"|\") }}",
+  "ctx": {
+   "users": [
+    {
+     "name": "john",
+     "is_active": true
+    },
+    {
+     "name": "jane",
+     "is_active": true
+    },
+    {
+     "name": "mike",
+     "is_active": false
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "mike"
+ },
+ {
+  "name": "f_func_select_attr",
+  "source": "{{ users|selectattr(\"id\", \"odd\")|map(attribute=\"name\")|join(\"|\") }}",
+  "ctx": {
+   "users": [
+    {
+     "id": 1,
+     "name": "john"
+    },
+    {
+     "id": 2,
+     "name": "jane"
+    },
+    {
+     "id": 3,
+     "name": "mike"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "john|mike"
+ },
+ {
+  "name": "f_func_reject_attr",
+  "source": "{{ users|rejectattr(\"id\", \"odd\")|map(attribute=\"name\")|join(\"|\") }}",
+  "ctx": {
+   "users": [
+    {
+     "id": 1,
+     "name": "john"
+    },
+    {
+     "id": 2,
+     "name": "jane"
+    },
+    {
+     "id": 3,
+     "name": "mike"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "jane"
+ },
+ {
+  "name": "f_json_dump",
+  "source": "{{ x|tojson }}",
+  "ctx": {
+   "x": {
+    "foo": "bar"
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "{\"foo\": \"bar\"}"
+ },
+ {
+  "name": "f_json_dump_str",
+  "source": "{{ \"'bar&baz'\"|tojson }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "\"\\u0027bar\\u0026baz\\u0027\""
+ },
+ {
+  "name": "f_json_dump_html",
+  "source": "{{ x|tojson }}",
+  "ctx": {
+   "x": "<bar>"
+  },
+  "templates": {},
+  "env": {},
+  "output": "\"\\u003cbar\\u003e\""
+ },
+ {
+  "name": "f_json_dump_indent",
+  "source": "{{ x|tojson(indent=2) }}",
+  "ctx": {
+   "x": {
+    "b": 1,
+    "a": [
+     1,
+     {
+      "c": 2
+     }
+    ]
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "{\n  \"a\": [\n    1,\n    {\n      \"c\": 2\n    }\n  ],\n  \"b\": 1\n}"
+ },
+ {
+  "name": "f_json_types",
+  "source": "{{ [1, 1.5, none, true, false, 'x', [1], {'k': 'v'}]|tojson }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[1, 1.5, null, true, false, \"x\", [1], {\"k\": \"v\"}]"
+ },
+ {
+  "name": "f_wordwrap",
+  "source": "{{ s|wordwrap(20) }}",
+  "ctx": {
+   "s": "Hello!\nThis is Jinja saying something."
+  },
+  "templates": {},
+  "env": {},
+  "output": "Hello!\nThis is Jinja saying\nsomething."
+ },
+ {
+  "name": "f_wordwrap_long",
+  "source": "{{ s|wordwrap(10) }}",
+  "ctx": {
+   "s": "supercalifragilisticexpialidocious word"
+  },
+  "templates": {},
+  "env": {},
+  "output": "supercalif\nragilistic\nexpialidoc\nious word"
+ },
+ {
+  "name": "f_filter_undefined_err",
+  "source": "{{ var|f }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TemplateAssertionError",
+  "error": "No filter named 'f'."
+ },
+ {
+  "name": "f_attr",
+  "source": "{{ d|attr('key') }}|{{ d|attr('items') is defined }}",
+  "ctx": {
+   "d": {
+    "key": "value"
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "|True"
+ },
+ {
+  "name": "t_defined",
+  "source": "{{ missing is defined }}|{{ true is defined }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "False|True"
+ },
+ {
+  "name": "t_even_odd",
+  "source": "{{ 1 is odd }}|{{ 2 is odd }}|{{ 1 is even }}|{{ 2 is even }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False|False|True"
+ },
+ {
+  "name": "t_lower_upper",
+  "source": "{{ 'foo' is lower }}|{{ 'FOO' is lower }}|{{ 'FOO' is upper }}|{{ 'foo' is upper }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False|True|False"
+ },
+ {
+  "name": "t_types",
+  "source": "{{ none is none }}|{{ false is none }}|{{ true is none }}|{{ 42 is none }}|{{ none is true }}|{{ false is true }}|{{ true is true }}|{{ 0 is true }}|{{ 1 is true }}|{{ 42 is true }}|{{ none is false }}|{{ false is false }}|{{ true is false }}|{{ 0 is false }}|{{ none is boolean }}|{{ false is boolean }}|{{ 0 is boolean }}|{{ 0.0 is boolean }}|{{ 42 is integer }}|{{ 42.0 is integer }}|{{ true is integer }}|{{ 42.0 is float }}|{{ 42 is float }}|{{ 42 is number }}|{{ 42.0 is number }}|{{ true is number }}|{{ 'x' is number }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False|False|False|False|False|True|False|False|False|False|True|False|False|False|True|False|False|True|False|False|True|False|True|True|True|False"
+ },
+ {
+  "name": "t_sequence",
+  "source": "{{ [1, 2, 3] is sequence }}|{{ 'foo' is sequence }}|{{ 42 is sequence }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|True|False"
+ },
+ {
+  "name": "t_mapping",
+  "source": "{{ {} is mapping }}|{{ [] is mapping }}|{{ 'x' is mapping }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False|False"
+ },
+ {
+  "name": "t_iterable",
+  "source": "{{ [1] is iterable }}|{{ 'x' is iterable }}|{{ 42 is iterable }}|{{ none is iterable }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|True|False|False"
+ },
+ {
+  "name": "t_callable",
+  "source": "{{ range is callable }}|{{ 42 is callable }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False"
+ },
+ {
+  "name": "t_sameas2",
+  "source": "{{ foo is sameas false }}|{{ 0 is sameas false }}",
+  "ctx": {
+   "foo": false
+  },
+  "templates": {},
+  "env": {},
+  "output": "True|False"
+ },
+ {
+  "name": "t_no_paren_for_arg1",
+  "source": "{{ foo is sameas none }}",
+  "ctx": {
+   "foo": null
+  },
+  "templates": {},
+  "env": {},
+  "output": "True"
+ },
+ {
+  "name": "t_escaped",
+  "source": "{{ x is escaped }}|{{ y is escaped }}",
+  "ctx": {
+   "x": "foo",
+   "y": "foo"
+  },
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "False|False"
+ },
+ {
+  "name": "t_escaped_safe",
+  "source": "{{ ('x'|safe) is escaped }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True"
+ },
+ {
+  "name": "t_greaterthan",
+  "source": "{{ 1 is greaterthan 0 }}|{{ 0 is greaterthan 1 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False"
+ },
+ {
+  "name": "t_lessthan",
+  "source": "{{ 0 is lessthan 1 }}|{{ 1 is lessthan 0 }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False"
+ },
+ {
+  "name": "t_multiple_tests",
+  "source": "{{ 1 is odd and 2 is even }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True"
+ },
+ {
+  "name": "t_in",
+  "source": "{{ 5 in [1, 2, 3] }}|{{ 2 in [1, 2, 3] }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "False|True"
+ },
+ {
+  "name": "t_name_undefined_err",
+  "source": "{{ x is f }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TemplateAssertionError",
+  "error": "No test named 'f'."
+ },
+ {
+  "name": "t_filter_test",
+  "source": "{{ 'upper' is filter }}|{{ 'nope' is filter }}|{{ 'odd' is test }}|{{ 'nope' is test }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True|False|True|False"
+ },
+ {
+  "name": "g_range",
+  "source": "{{ range(5)|list }}|{{ range(2, 5)|list }}|{{ range(0, 10, 3)|list }}|{{ range(5, 0, -1)|list }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[0, 1, 2, 3, 4]|[2, 3, 4]|[0, 3, 6, 9]|[5, 4, 3, 2, 1]"
+ },
+ {
+  "name": "g_dict",
+  "source": "{{ dict(a=1, b=2)|dictsort }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[('a', 1), ('b', 2)]"
+ },
+ {
+  "name": "g_cycler",
+  "source": "{% set c = cycler('a', 'b') %}{{ c.next() }}{{ c.next() }}{{ c.next() }}{{ c.current }}{% set _ = c.reset() %}{{ c.current }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "ababa"
+ },
+ {
+  "name": "g_joiner",
+  "source": "{% set pipe = joiner('|') %}{{ pipe() }}1{{ pipe() }}2{{ pipe() }}3",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1|2|3"
+ },
+ {
+  "name": "g_lipsum_html",
+  "source": "{{ lipsum(2)[:3] }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "<p>"
+ },
+ {
+  "name": "g_namespace_global",
+  "source": "{{ namespace(a=1).a }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "1"
+ },
+ {
+  "name": "ext_do",
+  "source": "{% set l = [] %}{% do l.append(1) if false else none %}{{ l }}|{% do 1 + 1 %}done",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "extensions": [
+    "do"
+   ]
+  },
+  "output": "[]|done"
+ },
+ {
+  "name": "ext_do_expr",
+  "source": "{% set ns = namespace(x=0) %}{% do ns.__setattr__ if false else none %}{{ ns.x }}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "extensions": [
+    "do"
+   ]
+  },
+  "output": "0"
+ },
+ {
+  "name": "ext_break",
+  "source": "{% for i in range(10) %}{% if i > 2 %}{% break %}{% endif %}{{ i }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "extensions": [
+    "loopcontrols"
+   ]
+  },
+  "output": "012"
+ },
+ {
+  "name": "ext_continue",
+  "source": "{% for i in range(6) %}{% if i % 2 == 0 %}{% continue %}{% endif %}{{ i }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "extensions": [
+    "loopcontrols"
+   ]
+  },
+  "output": "135"
+ },
+ {
+  "name": "ext_break_nested",
+  "source": "{% for i in [1, 2] %}{% for j in range(5) %}{% if j > i %}{% break %}{% endif %}{{ i }}{{ j }};{% endfor %}|{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "extensions": [
+    "loopcontrols"
+   ]
+  },
+  "output": "10;11;|20;21;22;|"
+ },
+ {
+  "name": "ext_trans_simple",
+  "source": "{% trans %}Hello {{ user }}!{% endtrans %}",
+  "ctx": {
+   "user": "World"
+  },
+  "templates": {},
+  "env": {
+   "install_null_translations": true
+  },
+  "output": "Hello World!"
+ },
+ {
+  "name": "ext_trans_plural",
+  "source": "{% trans count=n %}{{ count }} apple{% pluralize %}{{ count }} apples{% endtrans %}",
+  "ctx": {
+   "n": 1
+  },
+  "templates": {},
+  "env": {
+   "install_null_translations": true
+  },
+  "output": "1 apple"
+ },
+ {
+  "name": "ext_trans_plural2",
+  "source": "{% trans count=n %}{{ count }} apple{% pluralize %}{{ count }} apples{% endtrans %}",
+  "ctx": {
+   "n": 3
+  },
+  "templates": {},
+  "env": {
+   "install_null_translations": true
+  },
+  "output": "3 apples"
+ },
+ {
+  "name": "ext_trans_vars",
+  "source": "{% trans a=1, b='x' %}{{ a }}-{{ b }}{% endtrans %}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "install_null_translations": true
+  },
+  "output": "1-x"
+ },
+ {
+  "name": "ext_trans_trimmed",
+  "source": "{% trans trimmed %}  hello\n  world  {% endtrans %}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "install_null_translations": true
+  },
+  "output": "hello world"
+ },
+ {
+  "name": "ext_trans_percent",
+  "source": "{% trans %}100%{% endtrans %}|{% trans x=1 %}{{ x }} is 100%{% endtrans %}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "install_null_translations": true
+  },
+  "output": "100%|1 is 100%"
+ },
+ {
+  "name": "ext_trans_autoescape",
+  "source": "{% trans u=user %}<b>{{ u }}</b>{% endtrans %}",
+  "ctx": {
+   "user": "<x>"
+  },
+  "templates": {},
+  "env": {
+   "autoescape": true,
+   "install_null_translations": true
+  },
+  "output": "<b>&lt;x&gt;</b>"
+ },
+ {
+  "name": "ext_trans_nested_err",
+  "source": "{% trans %}a{% trans %}b{% endtrans %}{% endtrans %}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "install_null_translations": true
+  },
+  "error_type": "TemplateSyntaxError",
+  "error": "trans blocks can't be nested; did you mean `endtrans`?"
+ },
+ {
+  "name": "ext_trans_control_err",
+  "source": "{% trans %}{% if x %}a{% endif %}{% endtrans %}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "install_null_translations": true
+  },
+  "error_type": "TemplateSyntaxError",
+  "error": "control structures in translatable sections are not allowed; saw `if`"
+ },
+ {
+  "name": "ext_unknown_tag_without_ext",
+  "source": "{% do 1 %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TemplateSyntaxError",
+  "error": "Encountered unknown tag 'do'."
+ },
+ {
+  "name": "loader_include_chain",
+  "source": "{% include 'a' %}",
+  "ctx": {},
+  "templates": {
+   "a": "A{% include 'b' %}",
+   "b": "B{% include 'c' %}",
+   "c": "C"
+  },
+  "env": {},
+  "output": "ABC"
+ },
+ {
+  "name": "loader_extends_include",
+  "source": "{% include 'child' %}",
+  "ctx": {},
+  "templates": {
+   "child": "{% extends 'base' %}{% block b %}child{% endblock %}",
+   "base": "[{% block b %}{% endblock %}]"
+  },
+  "env": {},
+  "output": "[child]"
+ },
+ {
+  "name": "loader_template_not_found_msg",
+  "source": "{% include 'missing_template' %}",
+  "ctx": {},
+  "templates": {
+   "x": "y"
+  },
+  "env": {},
+  "error_type": "TemplateNotFound",
+  "error": "missing_template"
+ },
+ {
+  "name": "loader_select_not_found",
+  "source": "{% include ['m1', 'm2'] %}",
+  "ctx": {},
+  "templates": {
+   "x": "y"
+  },
+  "env": {},
+  "error_type": "TemplatesNotFound",
+  "error": "none of the templates given were found: m1, m2"
+ },
+ {
+  "name": "r_keyword_folding",
+  "source": "{{ true }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "True"
+ },
+ {
+  "name": "r_empty_if_condition_err",
+  "source": "{% if %}....{% endif %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TemplateSyntaxError",
+  "error": "Expected an expression, got 'end of statement block'"
+ },
+ {
+  "name": "r_recursive_loop_compile",
+  "source": "{% for p in foo recursive %}{{ p.bar }}{% for f in p.fields recursive %}{{ f.baz }}{% endfor %}{% endfor %}",
+  "ctx": {
+   "foo": []
+  },
+  "templates": {},
+  "env": {},
+  "output": ""
+ },
+ {
+  "name": "r_else_loop_bug",
+  "source": "{% for x in [1] %}{{ loop.index0 }}{% else %}NONE{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "0"
+ },
+ {
+  "name": "r_correct_prefix_loader_name",
+  "source": "{% include 'p/x' %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TypeError",
+  "error": "no loader for this environment specified"
+ },
+ {
+  "name": "r_partial_conditional_assignments",
+  "source": "{% if b %}{% set a = 42 %}{% endif %}{{ a }}",
+  "ctx": {
+   "a": 23,
+   "b": false
+  },
+  "templates": {},
+  "env": {},
+  "output": "23"
+ },
+ {
+  "name": "r_partial_conditional_assignments2",
+  "source": "{% if b %}{% set a = 42 %}{% endif %}{{ a }}",
+  "ctx": {
+   "a": 23,
+   "b": true
+  },
+  "templates": {},
+  "env": {},
+  "output": "42"
+ },
+ {
+  "name": "r_stacked_locals_scoping",
+  "source": "{% for j in [1, 2] %}{% set x = 1 %}{% for i in [1, 2] %}{{ x }}{% if i % 2 == 0 %}{% set x = 2 %}{% endif %}{% endfor %}{% endfor %}{% if a %}{{ 1 }}{% elif b %}{{ 2 }}{% else %}{{ 3 }}{% endif %}",
+  "ctx": {
+   "a": false,
+   "b": false
+  },
+  "templates": {},
+  "env": {},
+  "output": "11113"
+ },
+ {
+  "name": "r_double_caller",
+  "source": "{% macro x() %}{{ caller() }}{% endmacro %}{% call x() %}aha!{% endcall %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "aha!"
+ },
+ {
+  "name": "r_variable_reuse",
+  "source": "{% for x in x.y %}{{ x }}{% endfor %}",
+  "ctx": {
+   "x": {
+    "y": [
+     0,
+     1,
+     2
+    ]
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "012"
+ },
+ {
+  "name": "r_variable_reuse2",
+  "source": "{% for x in x.y %}{{ x }}{% endfor %}{% for x in x.x %}{{ x }}{% endfor %}",
+  "ctx": {
+   "x": {
+    "y": [
+     0,
+     1,
+     2
+    ],
+    "x": [
+     3,
+     4,
+     5
+    ]
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "012345"
+ },
+ {
+  "name": "r_bug_with_temporary_variables",
+  "source": "{% for i, j in [(1, 2)] %}{{ i }}{{ j }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "12"
+ },
+ {
+  "name": "r_call_with_args_macro",
+  "source": "{% macro dump_users(users) -%}\n    <ul>\n      {%- for user in users -%}\n        <li><p>{{ user.username|e }}</p>{{ caller(user) }}</li>\n      {%- endfor -%}\n      </ul>\n    {%- endmacro -%}\n\n    {% call(user) dump_users(list_of_user) -%}\n      <dl>\n        <dl>Realname</dl>\n        <dd>{{ user.realname|e }}</dd>\n        <dl>Description</dl>\n        <dd>{{ user.description }}</dd>\n      </dl>\n    {%- endcall %}",
+  "ctx": {
+   "list_of_user": [
+    {
+     "username": "apo",
+     "realname": "something else",
+     "description": "test"
+    }
+   ]
+  },
+  "templates": {},
+  "env": {},
+  "output": "<ul><li><p>apo</p><dl>\n        <dl>Realname</dl>\n        <dd>something else</dd>\n        <dl>Description</dl>\n        <dd>test</dd>\n      </dl></li></ul>"
+ },
+ {
+  "name": "r_empty_if",
+  "source": "{% if foo %}{% else %}bar{% endif %}",
+  "ctx": {
+   "foo": false
+  },
+  "templates": {},
+  "env": {},
+  "output": "bar"
+ },
+ {
+  "name": "r_subproperty_if",
+  "source": "{% if object1.subproperty1 is eq object2.subproperty2 %}42{% endif %}",
+  "ctx": {
+   "object1": {
+    "subproperty1": "value"
+   },
+   "object2": {
+    "subproperty2": "value"
+   }
+  },
+  "templates": {},
+  "env": {},
+  "output": "42"
+ },
+ {
+  "name": "r_set_and_include",
+  "source": "{% set x = 1 %}{% include 'inner' %}",
+  "ctx": {},
+  "templates": {
+   "inner": "x is {{ x }}"
+  },
+  "env": {},
+  "output": "x is 1"
+ },
+ {
+  "name": "r_loop_include",
+  "source": "{% for i in [1, 2, 3] %}{% include 'inner' %}{% endfor %}",
+  "ctx": {},
+  "templates": {
+   "inner": "{{ i }}"
+  },
+  "env": {},
+  "output": "123"
+ },
+ {
+  "name": "r_grouper_repr",
+  "source": "{{ [('a', [1])]|first }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "('a', [1])"
+ },
+ {
+  "name": "r_scoped_block",
+  "source": "{% extends 'parent' %}{% block item scoped %}{{ item }}{% endblock %}",
+  "ctx": {
+   "foo": [
+    1,
+    2,
+    3
+   ]
+  },
+  "templates": {
+   "parent": "{% for item in foo %}[{% block item scoped %}{% endblock %}]{% endfor %}"
+  },
+  "env": {},
+  "output": "[1][2][3]"
+ },
+ {
+  "name": "r_scoped_block_in_include",
+  "source": "{% include 'helper' %}",
+  "ctx": {},
+  "templates": {
+   "helper": "{% for item in [1, 2] %}{% block item scoped %}{{ item }}{% endblock %}{% endfor %}"
+  },
+  "env": {},
+  "output": "12"
+ },
+ {
+  "name": "r_caller_scoping",
+  "source": "{% macro detail(icon) %}{{ caller() }}{{ icon }}{% endmacro %}{% call detail('x') %}[{{ icon|default('no') }}]{% endcall %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[no]x"
+ },
+ {
+  "name": "r_block_set_with_extends",
+  "source": "{% extends 'main' %}{% set body = 'x' %}",
+  "ctx": {},
+  "templates": {
+   "main": "{{ body }}"
+  },
+  "env": {},
+  "output": "x"
+ },
+ {
+  "name": "r_nested_for_else",
+  "source": "{% for x in [] %}{{ x }}{% else %}{% for i in range(3) %}{{ i }}{% endfor %}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "012"
+ },
+ {
+  "name": "r_macro_var_unpacking",
+  "source": "{% macro m() %}{% for x, y in [(1, 2)] %}{{ x }}{{ y }}{% endfor %}{% endmacro %}{{ m() }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "12"
+ },
+ {
+  "name": "r_nested_loop_scoping",
+  "source": "{% for i in [1] %}{% for j in [2] %}{{ i }}{{ j }}{% endfor %}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "12"
+ },
+ {
+  "name": "r_weird_inline_comment_err",
+  "source": "{% for item in seq {# missing #}%}...{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TemplateSyntaxError",
+  "error": "expected token 'end of statement block', got '{'"
+ },
+ {
+  "name": "r_markup_and_chainable_undefined",
+  "source": "{{ '<br>'|e + missing.x|default('') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "undefined": "chainable",
+   "autoescape": true
+  },
+  "output": "&lt;br&gt;"
+ },
+ {
+  "name": "r_scoping_bug_macro_module",
+  "source": "{% macro foo() %}bar{% endmacro %}{% set x = foo() %}{{ x }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "bar"
+ },
+ {
+  "name": "r_macro_escaping",
+  "source": "{% macro m() %}<b>{% endmacro %}{{ m() }}|{{ m()|e }}",
+  "ctx": {},
+  "templates": {},
+  "env": {
+   "autoescape": true
+  },
+  "output": "<b>|<b>"
+ },
+ {
+  "name": "r_recursive_loop_filter",
+  "source": "{% for p in [{'b': true, 'c': [{'b': false, 'c': []}, {'b': true, 'c': []}]}] recursive if p.b %}+{{ loop(p.c) }}{% endfor %}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "error_type": "TemplateSyntaxError",
+  "error": "expected token 'end of statement block', got 'if'"
+ },
+ {
+  "name": "r_empty_set_block",
+  "source": "{% set x %}{% endset %}[{{ x }}]",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "[]"
+ },
+ {
+  "name": "r_cond_expr_undefined",
+  "source": "{{ ('foo' if false)|default('bar') }}",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "bar"
+ },
+ {
+  "name": "r_nested_cond",
+  "source": "{{ 'a' if (true if x else false) else 'b' }}",
+  "ctx": {
+   "x": 1
+  },
+  "templates": {},
+  "env": {},
+  "output": "a"
+ },
+ {
+  "name": "r_unicode_whitespace",
+  "source": "你好 世界",
+  "ctx": {},
+  "templates": {},
+  "env": {},
+  "output": "你好 世界"
+ }
+]

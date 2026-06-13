@@ -1,0 +1,682 @@
+[
+ {
+  "name": "data_only",
+  "source": "hello",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[TemplateData(data='hello')])])"
+ },
+ {
+  "name": "var",
+  "source": "{{ foo }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Name(name='foo', ctx='load')])])"
+ },
+ {
+  "name": "var_data_mix",
+  "source": "a{{ b }}c{{ d }}e",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[TemplateData(data='a'), Name(name='b', ctx='load'), TemplateData(data='c'), Name(name='d', ctx='load'), TemplateData(data='e')])])"
+ },
+ {
+  "name": "tuple_in_var",
+  "source": "{{ a, b }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Tuple(items=[Name(name='a', ctx='load'), Name(name='b', ctx='load')], ctx='load')])])"
+ },
+ {
+  "name": "empty_var_err",
+  "source": "{{ }}",
+  "config": {},
+  "error": "Expected an expression, got 'end of print statement'",
+  "error_lineno": 1
+ },
+ {
+  "name": "call",
+  "source": "{{ foo('a', c='d', e='f', *g, **h) }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Call(node=Name(name='foo', ctx='load'), args=[Const(value='a')], kwargs=[Keyword(key='c', value=Const(value='d')), Keyword(key='e', value=Const(value='f'))], dyn_args=Name(name='g', ctx='load'), dyn_kwargs=Name(name='h', ctx='load'))])])"
+ },
+ {
+  "name": "call_dynargs_only",
+  "source": "{{ foo(*args) }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Call(node=Name(name='foo', ctx='load'), args=[], kwargs=[], dyn_args=Name(name='args', ctx='load'), dyn_kwargs=None)])])"
+ },
+ {
+  "name": "call_trailing_comma",
+  "source": "{{ foo(1, 2,) }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Call(node=Name(name='foo', ctx='load'), args=[Const(value=1), Const(value=2)], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "call_arg_after_kwarg_err",
+  "source": "{{ foo(a=1, 2) }}",
+  "config": {},
+  "error": "invalid syntax for function call expression",
+  "error_lineno": 1
+ },
+ {
+  "name": "call_two_starargs_err",
+  "source": "{{ foo(*a, *b) }}",
+  "config": {},
+  "error": "invalid syntax for function call expression",
+  "error_lineno": 1
+ },
+ {
+  "name": "slicing",
+  "source": "{{ [1, 2, 3][:] }}|{{ [1, 2, 3][::-1] }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Getitem(node=List(items=[Const(value=1), Const(value=2), Const(value=3)]), arg=Slice(start=None, stop=None, step=None), ctx='load'), TemplateData(data='|'), Getitem(node=List(items=[Const(value=1), Const(value=2), Const(value=3)]), arg=Slice(start=None, stop=None, step=Neg(node=Const(value=1))), ctx='load')])])"
+ },
+ {
+  "name": "slicing_more",
+  "source": "{{ x[1:2:3] }}{{ x[a:] }}{{ x[:b] }}{{ x[::2] }}{{ x[1:2, 3] }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Getitem(node=Name(name='x', ctx='load'), arg=Slice(start=Const(value=1), stop=Const(value=2), step=Const(value=3)), ctx='load'), Getitem(node=Name(name='x', ctx='load'), arg=Slice(start=Name(name='a', ctx='load'), stop=None, step=None), ctx='load'), Getitem(node=Name(name='x', ctx='load'), arg=Slice(start=None, stop=Name(name='b', ctx='load'), step=None), ctx='load'), Getitem(node=Name(name='x', ctx='load'), arg=Slice(start=None, stop=None, step=Const(value=2)), ctx='load'), Getitem(node=Name(name='x', ctx='load'), arg=Tuple(items=[Slice(start=Const(value=1), stop=Const(value=2), step=None), Const(value=3)], ctx='load'), ctx='load')])])"
+ },
+ {
+  "name": "attr",
+  "source": "{{ foo.bar }}|{{ foo['bar'] }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Getattr(node=Name(name='foo', ctx='load'), attr='bar', ctx='load'), TemplateData(data='|'), Getitem(node=Name(name='foo', ctx='load'), arg=Const(value='bar'), ctx='load')])])"
+ },
+ {
+  "name": "subscript",
+  "source": "{{ foo[0] }}|{{ foo[-1] }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Getitem(node=Name(name='foo', ctx='load'), arg=Const(value=0), ctx='load'), TemplateData(data='|'), Getitem(node=Name(name='foo', ctx='load'), arg=Neg(node=Const(value=1)), ctx='load')])])"
+ },
+ {
+  "name": "attr_int",
+  "source": "{{ foo.0 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Getitem(node=Name(name='foo', ctx='load'), arg=Const(value=0), ctx='load')])])"
+ },
+ {
+  "name": "attr_float_getattr",
+  "source": "{{ foo.0.0 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Getitem(node=Getitem(node=Name(name='foo', ctx='load'), arg=Const(value=0), ctx='load'), arg=Const(value=0), ctx='load')])])"
+ },
+ {
+  "name": "tuple_expr",
+  "source": "{{ () }}|{{ (1, 2) }}|{{ (1,) }}|{{ 1, }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Tuple(items=[], ctx='load'), TemplateData(data='|'), Tuple(items=[Const(value=1), Const(value=2)], ctx='load'), TemplateData(data='|'), Tuple(items=[Const(value=1)], ctx='load'), TemplateData(data='|'), Tuple(items=[Const(value=1)], ctx='load')])])"
+ },
+ {
+  "name": "math",
+  "source": "{{ (1 + 1 * 2) - 3 / 2 }}|{{ 2**3 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Sub(left=Add(left=Const(value=1), right=Mul(left=Const(value=1), right=Const(value=2))), right=Div(left=Const(value=3), right=Const(value=2))), TemplateData(data='|'), Pow(left=Const(value=2), right=Const(value=3))])])"
+ },
+ {
+  "name": "div",
+  "source": "{{ 3 // 2 }}|{{ 3 / 2 }}|{{ 3 % 2 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[FloorDiv(left=Const(value=3), right=Const(value=2)), TemplateData(data='|'), Div(left=Const(value=3), right=Const(value=2)), TemplateData(data='|'), Mod(left=Const(value=3), right=Const(value=2))])])"
+ },
+ {
+  "name": "unary",
+  "source": "{{ +3 }}|{{ -3 }}|{{ not 3 }}|{{ not not 3 }}|{{ --1 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Pos(node=Const(value=3)), TemplateData(data='|'), Neg(node=Const(value=3)), TemplateData(data='|'), Not(node=Const(value=3)), TemplateData(data='|'), Not(node=Not(node=Const(value=3))), TemplateData(data='|'), Neg(node=Neg(node=Const(value=1)))])])"
+ },
+ {
+  "name": "concat",
+  "source": "{{ [1, 2] ~ 'foo' }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Concat(nodes=[List(items=[Const(value=1), Const(value=2)]), Const(value='foo')])])])"
+ },
+ {
+  "name": "compare_chained",
+  "source": "{{ 1 < 2 < 3 }}|{{ a == b != c in d not in e }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Compare(expr=Const(value=1), ops=[Operand(op='lt', expr=Const(value=2)), Operand(op='lt', expr=Const(value=3))]), TemplateData(data='|'), Compare(expr=Name(name='a', ctx='load'), ops=[Operand(op='eq', expr=Name(name='b', ctx='load')), Operand(op='ne', expr=Name(name='c', ctx='load')), Operand(op='in', expr=Name(name='d', ctx='load')), Operand(op='notin', expr=Name(name='e', ctx='load'))])])])"
+ },
+ {
+  "name": "inop",
+  "source": "{{ 1 in [1, 2, 3] }}|{{ 1 not in [1, 2, 3] }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Compare(expr=Const(value=1), ops=[Operand(op='in', expr=List(items=[Const(value=1), Const(value=2), Const(value=3)]))]), TemplateData(data='|'), Compare(expr=Const(value=1), ops=[Operand(op='notin', expr=List(items=[Const(value=1), Const(value=2), Const(value=3)]))])])])"
+ },
+ {
+  "name": "collection_literals",
+  "source": "{{ [] }}|{{ {} }}|{{ {'a': 'b'} }}|{{ [1, ['a', 'b'], {1: 2}] }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[List(items=[]), TemplateData(data='|'), Dict(items=[]), TemplateData(data='|'), Dict(items=[Pair(key=Const(value='a'), value=Const(value='b'))]), TemplateData(data='|'), List(items=[Const(value=1), List(items=[Const(value='a'), Const(value='b')]), Dict(items=[Pair(key=Const(value=1), value=Const(value=2))])])])])"
+ },
+ {
+  "name": "constant_casing",
+  "source": "{{ True }}|{{ true }}|{{ False }}|{{ false }}|{{ None }}|{{ none }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Const(value=True), TemplateData(data='|'), Const(value=True), TemplateData(data='|'), Const(value=False), TemplateData(data='|'), Const(value=False), TemplateData(data='|'), Const(value=None), TemplateData(data='|'), Const(value=None)])])"
+ },
+ {
+  "name": "bool_ops",
+  "source": "{{ true and false }}|{{ false or true }}|{{ not false }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[And(left=Const(value=True), right=Const(value=False)), TemplateData(data='|'), Or(left=Const(value=False), right=Const(value=True)), TemplateData(data='|'), Not(node=Const(value=False))])])"
+ },
+ {
+  "name": "grouping",
+  "source": "{{ (true and false) or (false and true) and not false }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Or(left=And(left=Const(value=True), right=Const(value=False)), right=And(left=And(left=Const(value=False), right=Const(value=True)), right=Not(node=Const(value=False))))])])"
+ },
+ {
+  "name": "django_attr",
+  "source": "{{ [1, 2, 3].0 }}|{{ [[1]].0.0 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Getitem(node=List(items=[Const(value=1), Const(value=2), Const(value=3)]), arg=Const(value=0), ctx='load'), TemplateData(data='|'), Getitem(node=Getitem(node=List(items=[List(items=[Const(value=1)])]), arg=Const(value=0), ctx='load'), arg=Const(value=0), ctx='load')])])"
+ },
+ {
+  "name": "conditional_expression",
+  "source": "{{ 0 if true else 1 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[CondExpr(test=Const(value=True), expr1=Const(value=0), expr2=Const(value=1))])])"
+ },
+ {
+  "name": "short_conditional_expression",
+  "source": "{{ 1 if false }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[CondExpr(test=Const(value=False), expr1=Const(value=1), expr2=None)])])"
+ },
+ {
+  "name": "nested_condexpr",
+  "source": "{{ a if b else c if d else e }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[CondExpr(test=Name(name='b', ctx='load'), expr1=Name(name='a', ctx='load'), expr2=CondExpr(test=Name(name='d', ctx='load'), expr1=Name(name='c', ctx='load'), expr2=Name(name='e', ctx='load')))])])"
+ },
+ {
+  "name": "filter_priority",
+  "source": "{{ 'foo'|upper + 'bar'|upper }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Add(left=Filter(node=Const(value='foo'), name='upper', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), right=Filter(node=Const(value='bar'), name='upper', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None))])])"
+ },
+ {
+  "name": "filter_chain",
+  "source": "{{ x|a|b|c }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Filter(node=Filter(node=Filter(node=Name(name='x', ctx='load'), name='a', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), name='b', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), name='c', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "filter_args",
+  "source": "{{ x|join(', ', attribute='name') }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Filter(node=Name(name='x', ctx='load'), name='join', args=[Const(value=', ')], kwargs=[Keyword(key='attribute', value=Const(value='name'))], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "filter_dotted",
+  "source": "{{ x|to.string }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Filter(node=Name(name='x', ctx='load'), name='to.string', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "function_calls_complex",
+  "source": "{{ foo(x, y, z=1, *args, **kwargs) }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Call(node=Name(name='foo', ctx='load'), args=[Name(name='x', ctx='load'), Name(name='y', ctx='load')], kwargs=[Keyword(key='z', value=Const(value=1))], dyn_args=Name(name='args', ctx='load'), dyn_kwargs=Name(name='kwargs', ctx='load'))])])"
+ },
+ {
+  "name": "test_basic",
+  "source": "{{ x is defined }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Test(node=Name(name='x', ctx='load'), name='defined', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "test_not",
+  "source": "{{ x is not defined }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Not(node=Test(node=Name(name='x', ctx='load'), name='defined', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None))])])"
+ },
+ {
+  "name": "test_arg",
+  "source": "{{ x is divisibleby 3 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Test(node=Name(name='x', ctx='load'), name='divisibleby', args=[Const(value=3)], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "test_arg_parens",
+  "source": "{{ x is divisibleby(3) }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Test(node=Name(name='x', ctx='load'), name='divisibleby', args=[Const(value=3)], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "test_arg_postfix",
+  "source": "{{ x is sameas foo.bar }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Test(node=Name(name='x', ctx='load'), name='sameas', args=[Getattr(node=Name(name='foo', ctx='load'), attr='bar', ctx='load')], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "test_chain_err",
+  "source": "{{ x is sameas 1 is sameas 2 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Test(node=Test(node=Name(name='x', ctx='load'), name='sameas', args=[Const(value=1)], kwargs=[], dyn_args=None, dyn_kwargs=None), name='sameas', args=[Const(value=2)], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "test_not_followed_else",
+  "source": "{{ 1 if x is defined else 2 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[CondExpr(test=Test(node=Name(name='x', ctx='load'), name='defined', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), expr1=Const(value=1), expr2=Const(value=2))])])"
+ },
+ {
+  "name": "test_or_and",
+  "source": "{{ x is defined and y is defined or z }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Or(left=And(left=Test(node=Name(name='x', ctx='load'), name='defined', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), right=Test(node=Name(name='y', ctx='load'), name='defined', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None)), right=Name(name='z', ctx='load'))])])"
+ },
+ {
+  "name": "test_dotted",
+  "source": "{{ x is what.ever }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Test(node=Name(name='x', ctx='load'), name='what.ever', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "string_concatenation_implicit",
+  "source": "{{ \"foo\" \"bar\" \"baz\" }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Const(value='foobarbaz')])])"
+ },
+ {
+  "name": "operator_precedence",
+  "source": "{{ 2 * 3 + 4 % 2 + 1 - 2 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Sub(left=Add(left=Add(left=Mul(left=Const(value=2), right=Const(value=3)), right=Mod(left=Const(value=4), right=Const(value=2))), right=Const(value=1)), right=Const(value=2))])])"
+ },
+ {
+  "name": "operator_precedence2",
+  "source": "{{ not 1 + 2 * 3 < 4 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Not(node=Compare(expr=Add(left=Const(value=1), right=Mul(left=Const(value=2), right=Const(value=3))), ops=[Operand(op='lt', expr=Const(value=4))]))])])"
+ },
+ {
+  "name": "implicit_subscribed_tuple",
+  "source": "{{ foo[1, 2] }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Getitem(node=Name(name='foo', ctx='load'), arg=Tuple(items=[Const(value=1), Const(value=2)], ctx='load'), ctx='load')])])"
+ },
+ {
+  "name": "raw_in_expr",
+  "source": "{{ raw }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Name(name='raw', ctx='load')])])"
+ },
+ {
+  "name": "neg_filter_priority",
+  "source": "{{ -1|foo }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Filter(node=Neg(node=Const(value=1)), name='foo', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "pow_chain",
+  "source": "{{ 2**2**3 }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Pow(left=Pow(left=Const(value=2), right=Const(value=2)), right=Const(value=3))])])"
+ },
+ {
+  "name": "getattr_call_chain",
+  "source": "{{ a.b().c('x').d[0](1) }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Call(node=Getitem(node=Getattr(node=Call(node=Getattr(node=Call(node=Getattr(node=Name(name='a', ctx='load'), attr='b', ctx='load'), args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), attr='c', ctx='load'), args=[Const(value='x')], kwargs=[], dyn_args=None, dyn_kwargs=None), attr='d', ctx='load'), arg=Const(value=0), ctx='load'), args=[Const(value=1)], kwargs=[], dyn_args=None, dyn_kwargs=None)])])"
+ },
+ {
+  "name": "if",
+  "source": "{% if x %}A{% endif %}",
+  "config": {},
+  "repr": "Template(body=[If(test=Name(name='x', ctx='load'), body=[Output(nodes=[TemplateData(data='A')])], elif_=[], else_=[])])"
+ },
+ {
+  "name": "if_elif_else",
+  "source": "{% if a %}A{% elif b %}B{% elif c %}C{% else %}D{% endif %}",
+  "config": {},
+  "repr": "Template(body=[If(test=Name(name='a', ctx='load'), body=[Output(nodes=[TemplateData(data='A')])], elif_=[If(test=Name(name='b', ctx='load'), body=[Output(nodes=[TemplateData(data='B')])], elif_=[], else_=[]), If(test=Name(name='c', ctx='load'), body=[Output(nodes=[TemplateData(data='C')])], elif_=[], else_=[])], else_=[Output(nodes=[TemplateData(data='D')])])])"
+ },
+ {
+  "name": "if_colon",
+  "source": "{% if x: %}A{% endif %}",
+  "config": {},
+  "repr": "Template(body=[If(test=Name(name='x', ctx='load'), body=[Output(nodes=[TemplateData(data='A')])], elif_=[], else_=[])])"
+ },
+ {
+  "name": "for",
+  "source": "{% for item in seq %}{{ item }}{% endfor %}",
+  "config": {},
+  "repr": "Template(body=[For(target=Name(name='item', ctx='store'), iter=Name(name='seq', ctx='load'), body=[Output(nodes=[Name(name='item', ctx='load')])], else_=[], test=None, recursive=False)])"
+ },
+ {
+  "name": "for_else",
+  "source": "{% for i in s %}a{% else %}b{% endfor %}",
+  "config": {},
+  "repr": "Template(body=[For(target=Name(name='i', ctx='store'), iter=Name(name='s', ctx='load'), body=[Output(nodes=[TemplateData(data='a')])], else_=[Output(nodes=[TemplateData(data='b')])], test=None, recursive=False)])"
+ },
+ {
+  "name": "for_unpack",
+  "source": "{% for a, b in items %}x{% endfor %}",
+  "config": {},
+  "repr": "Template(body=[For(target=Tuple(items=[Name(name='a', ctx='store'), Name(name='b', ctx='store')], ctx='store'), iter=Name(name='items', ctx='load'), body=[Output(nodes=[TemplateData(data='x')])], else_=[], test=None, recursive=False)])"
+ },
+ {
+  "name": "for_unpack_parens",
+  "source": "{% for (a, b) in items %}x{% endfor %}",
+  "config": {},
+  "repr": "Template(body=[For(target=Tuple(items=[Name(name='a', ctx='store'), Name(name='b', ctx='store')], ctx='store'), iter=Name(name='items', ctx='load'), body=[Output(nodes=[TemplateData(data='x')])], else_=[], test=None, recursive=False)])"
+ },
+ {
+  "name": "for_filtered",
+  "source": "{% for i in s if i > 1 %}x{% endfor %}",
+  "config": {},
+  "repr": "Template(body=[For(target=Name(name='i', ctx='store'), iter=Name(name='s', ctx='load'), body=[Output(nodes=[TemplateData(data='x')])], else_=[], test=Compare(expr=Name(name='i', ctx='load'), ops=[Operand(op='gt', expr=Const(value=1))]), recursive=False)])"
+ },
+ {
+  "name": "for_recursive",
+  "source": "{% for i in s recursive %}x{% endfor %}",
+  "config": {},
+  "repr": "Template(body=[For(target=Name(name='i', ctx='store'), iter=Name(name='s', ctx='load'), body=[Output(nodes=[TemplateData(data='x')])], else_=[], test=None, recursive=True)])"
+ },
+ {
+  "name": "for_filtered_recursive",
+  "source": "{% for i in s if i recursive %}x{% endfor %}",
+  "config": {},
+  "repr": "Template(body=[For(target=Name(name='i', ctx='store'), iter=Name(name='s', ctx='load'), body=[Output(nodes=[TemplateData(data='x')])], else_=[], test=Name(name='i', ctx='load'), recursive=True)])"
+ },
+ {
+  "name": "for_assign_to_const_err",
+  "source": "{% for true in s %}x{% endfor %}",
+  "config": {},
+  "error": "can't assign to 'const'",
+  "error_lineno": 1
+ },
+ {
+  "name": "set",
+  "source": "{% set x = 1 %}",
+  "config": {},
+  "repr": "Template(body=[Assign(target=Name(name='x', ctx='store'), node=Const(value=1))])"
+ },
+ {
+  "name": "set_tuple",
+  "source": "{% set a, b = 1, 2 %}",
+  "config": {},
+  "repr": "Template(body=[Assign(target=Tuple(items=[Name(name='a', ctx='store'), Name(name='b', ctx='store')], ctx='store'), node=Tuple(items=[Const(value=1), Const(value=2)], ctx='load'))])"
+ },
+ {
+  "name": "set_namespace",
+  "source": "{% set ns.x = 1 %}",
+  "config": {},
+  "repr": "Template(body=[Assign(target=NSRef(name='ns', attr='x'), node=Const(value=1))])"
+ },
+ {
+  "name": "set_block",
+  "source": "{% set x %}content{% endset %}",
+  "config": {},
+  "repr": "Template(body=[AssignBlock(target=Name(name='x', ctx='store'), filter=None, body=[Output(nodes=[TemplateData(data='content')])])])"
+ },
+ {
+  "name": "set_block_filter",
+  "source": "{% set x | upper %}content{% endset %}",
+  "config": {},
+  "repr": "Template(body=[AssignBlock(target=Name(name='x', ctx='store'), filter=Filter(node=None, name='upper', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), body=[Output(nodes=[TemplateData(data='content')])])])"
+ },
+ {
+  "name": "set_invalid_err",
+  "source": "{% set x.y = 1 %}",
+  "config": {},
+  "repr": "Template(body=[Assign(target=NSRef(name='x', attr='y'), node=Const(value=1))])"
+ },
+ {
+  "name": "set_const_err",
+  "source": "{% set true = 1 %}",
+  "config": {},
+  "error": "can't assign to 'const'",
+  "error_lineno": 1
+ },
+ {
+  "name": "block",
+  "source": "{% block foo %}x{% endblock %}",
+  "config": {},
+  "repr": "Template(body=[Block(name='foo', body=[Output(nodes=[TemplateData(data='x')])], scoped=False, required=False)])"
+ },
+ {
+  "name": "block_named_end",
+  "source": "{% block foo %}x{% endblock foo %}",
+  "config": {},
+  "repr": "Template(body=[Block(name='foo', body=[Output(nodes=[TemplateData(data='x')])], scoped=False, required=False)])"
+ },
+ {
+  "name": "block_scoped",
+  "source": "{% block foo scoped %}x{% endblock %}",
+  "config": {},
+  "repr": "Template(body=[Block(name='foo', body=[Output(nodes=[TemplateData(data='x')])], scoped=True, required=False)])"
+ },
+ {
+  "name": "block_required",
+  "source": "{% block foo required %}  {% endblock %}",
+  "config": {},
+  "repr": "Template(body=[Block(name='foo', body=[Output(nodes=[TemplateData(data='  ')])], scoped=False, required=True)])"
+ },
+ {
+  "name": "block_required_content_err",
+  "source": "{% block foo required %}x{% endblock %}",
+  "config": {},
+  "error": "Required blocks can only contain comments or whitespace",
+  "error_lineno": 1
+ },
+ {
+  "name": "block_hyphen_err",
+  "source": "{% block foo-bar %}x{% endblock %}",
+  "config": {},
+  "error": "Block names in Jinja have to be valid Python identifiers and may not contain hyphens, use an underscore instead.",
+  "error_lineno": 1
+ },
+ {
+  "name": "extends",
+  "source": "{% extends 'base.html' %}",
+  "config": {},
+  "repr": "Template(body=[Extends(template=Const(value='base.html'))])"
+ },
+ {
+  "name": "extends_expr",
+  "source": "{% extends layout_template if layout else 'default.html' %}",
+  "config": {},
+  "repr": "Template(body=[Extends(template=CondExpr(test=Name(name='layout', ctx='load'), expr1=Name(name='layout_template', ctx='load'), expr2=Const(value='default.html')))])"
+ },
+ {
+  "name": "include",
+  "source": "{% include 'a.html' %}",
+  "config": {},
+  "repr": "Template(body=[Include(template=Const(value='a.html'), with_context=True, ignore_missing=False)])"
+ },
+ {
+  "name": "include_ignore_missing",
+  "source": "{% include 'a.html' ignore missing %}",
+  "config": {},
+  "repr": "Template(body=[Include(template=Const(value='a.html'), with_context=True, ignore_missing=True)])"
+ },
+ {
+  "name": "include_context",
+  "source": "{% include 'a.html' with context %}{% include 'b.html' without context %}",
+  "config": {},
+  "repr": "Template(body=[Include(template=Const(value='a.html'), with_context=True, ignore_missing=False), Include(template=Const(value='b.html'), with_context=False, ignore_missing=False)])"
+ },
+ {
+  "name": "include_list",
+  "source": "{% include ['a', 'b'] %}",
+  "config": {},
+  "repr": "Template(body=[Include(template=List(items=[Const(value='a'), Const(value='b')]), with_context=True, ignore_missing=False)])"
+ },
+ {
+  "name": "import",
+  "source": "{% import 'forms.html' as forms %}",
+  "config": {},
+  "repr": "Template(body=[Import(template=Const(value='forms.html'), target='forms', with_context=False)])"
+ },
+ {
+  "name": "import_context",
+  "source": "{% import 'forms.html' as forms with context %}",
+  "config": {},
+  "repr": "Template(body=[Import(template=Const(value='forms.html'), target='forms', with_context=True)])"
+ },
+ {
+  "name": "from_import",
+  "source": "{% from 'forms.html' import input %}",
+  "config": {},
+  "repr": "Template(body=[FromImport(template=Const(value='forms.html'), names=['input'], with_context=False)])"
+ },
+ {
+  "name": "from_import_as",
+  "source": "{% from 'forms.html' import input as input_field, textarea %}",
+  "config": {},
+  "repr": "Template(body=[FromImport(template=Const(value='forms.html'), names=[('input', 'input_field'), 'textarea'], with_context=False)])"
+ },
+ {
+  "name": "from_import_context",
+  "source": "{% from 'x' import a, b with context %}",
+  "config": {},
+  "repr": "Template(body=[FromImport(template=Const(value='x'), names=['a', 'b'], with_context=True)])"
+ },
+ {
+  "name": "from_import_underscore_err",
+  "source": "{% from 'x' import _private %}",
+  "config": {},
+  "error": "names starting with an underline can not be imported",
+  "error_lineno": 1
+ },
+ {
+  "name": "macro",
+  "source": "{% macro m(a, b, c=1, d=2) %}body{% endmacro %}",
+  "config": {},
+  "repr": "Template(body=[Macro(name='m', args=[Name(name='a', ctx='param'), Name(name='b', ctx='param'), Name(name='c', ctx='param'), Name(name='d', ctx='param')], defaults=[Const(value=1), Const(value=2)], body=[Output(nodes=[TemplateData(data='body')])])])"
+ },
+ {
+  "name": "macro_nondefault_after_default_err",
+  "source": "{% macro m(a=1, b) %}x{% endmacro %}",
+  "config": {},
+  "error": "non-default argument follows default argument",
+  "error_lineno": 1
+ },
+ {
+  "name": "call_block",
+  "source": "{% call m() %}body{% endcall %}",
+  "config": {},
+  "repr": "Template(body=[CallBlock(call=Call(node=Name(name='m', ctx='load'), args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), args=[], defaults=[], body=[Output(nodes=[TemplateData(data='body')])])])"
+ },
+ {
+  "name": "call_block_args",
+  "source": "{% call(user) dump_users(list_of_users) %}x{% endcall %}",
+  "config": {},
+  "repr": "Template(body=[CallBlock(call=Call(node=Name(name='dump_users', ctx='load'), args=[Name(name='list_of_users', ctx='load')], kwargs=[], dyn_args=None, dyn_kwargs=None), args=[Name(name='user', ctx='param')], defaults=[], body=[Output(nodes=[TemplateData(data='x')])])])"
+ },
+ {
+  "name": "call_block_not_call_err",
+  "source": "{% call foo %}x{% endcall %}",
+  "config": {},
+  "error": "expected call",
+  "error_lineno": 1
+ },
+ {
+  "name": "filter_block",
+  "source": "{% filter upper|replace('FOO', 'foo') %}foo{% endfilter %}",
+  "config": {},
+  "repr": "Template(body=[FilterBlock(body=[Output(nodes=[TemplateData(data='foo')])], filter=Filter(node=Filter(node=None, name='upper', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), name='replace', args=[Const(value='FOO'), Const(value='foo')], kwargs=[], dyn_args=None, dyn_kwargs=None))])"
+ },
+ {
+  "name": "with",
+  "source": "{% with a = 1, b = 2 %}{{ a }}{% endwith %}",
+  "config": {},
+  "repr": "Template(body=[With(targets=[Name(name='a', ctx='param'), Name(name='b', ctx='param')], values=[Const(value=1), Const(value=2)], body=[Output(nodes=[Name(name='a', ctx='load')])])])"
+ },
+ {
+  "name": "with_empty",
+  "source": "{% with %}x{% endwith %}",
+  "config": {},
+  "repr": "Template(body=[With(targets=[], values=[], body=[Output(nodes=[TemplateData(data='x')])])])"
+ },
+ {
+  "name": "autoescape",
+  "source": "{% autoescape true %}x{% endautoescape %}",
+  "config": {},
+  "repr": "Template(body=[Scope(body=[ScopedEvalContextModifier(options=[Keyword(key='autoescape', value=Const(value=True))], body=[Output(nodes=[TemplateData(data='x')])])])])"
+ },
+ {
+  "name": "print_stmt",
+  "source": "{% print 'x', 1 + 2 %}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Const(value='x'), Add(left=Const(value=1), right=Const(value=2))])])"
+ },
+ {
+  "name": "err_unclosed_if",
+  "source": "{% if foo %}",
+  "config": {},
+  "error": "Unexpected end of template. Jinja was looking for the following tags: 'elif' or 'else' or 'endif'. The innermost block that needs to be closed is 'if'.",
+  "error_lineno": 1
+ },
+ {
+  "name": "err_unknown_tag",
+  "source": "{% fou %}",
+  "config": {},
+  "error": "Encountered unknown tag 'fou'.",
+  "error_lineno": 1
+ },
+ {
+  "name": "err_unknown_endtag",
+  "source": "{% for item in seq %}...{% endfor item %}",
+  "config": {},
+  "error": "expected token 'end of statement block', got 'item'",
+  "error_lineno": 1
+ },
+ {
+  "name": "err_nesting",
+  "source": "{% if foo %}{% for item in seq %}...{% endfor %}{% endwhile %}",
+  "config": {},
+  "error": "Encountered unknown tag 'endwhile'. Jinja was looking for the following tags: 'elif' or 'else' or 'endif'. The innermost block that needs to be closed is 'if'.",
+  "error_lineno": 1
+ },
+ {
+  "name": "err_endif_in_for",
+  "source": "{% for item in seq %}{% endif %}",
+  "config": {},
+  "error": "Encountered unknown tag 'endif'. Jinja was looking for the following tags: 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.",
+  "error_lineno": 1
+ },
+ {
+  "name": "err_unexpected_end_block",
+  "source": "{% endblock %}",
+  "config": {},
+  "error": "Encountered unknown tag 'endblock'.",
+  "error_lineno": 1
+ },
+ {
+  "name": "err_tag_expected",
+  "source": "{% 1 %}",
+  "config": {},
+  "error": "tag name expected",
+  "error_lineno": 1
+ },
+ {
+  "name": "err_expr",
+  "source": "{{ if }}",
+  "config": {},
+  "repr": "Template(body=[Output(nodes=[Name(name='if', ctx='load')])])"
+ },
+ {
+  "name": "err_unexpected_rbrace",
+  "source": "{{ x } }}",
+  "config": {},
+  "error": "unexpected '}'",
+  "error_lineno": 1
+ },
+ {
+  "name": "line_stmt",
+  "source": "# for item in seq:\n  {{ item }}\n# endfor",
+  "config": {
+   "line_statement_prefix": "#"
+  },
+  "repr": "Template(body=[For(target=Name(name='item', ctx='store'), iter=Name(name='seq', ctx='load'), body=[Output(nodes=[TemplateData(data='  '), Name(name='item', ctx='load'), TemplateData(data='\\n')])], else_=[], test=None, recursive=False)])"
+ },
+ {
+  "name": "kitchen_sink",
+  "source": "{% extends \"base.html\" %}\n{% block title %}Members{% endblock %}\n{% block content %}\n  <ul>\n  {% for user in users if not user.hidden recursive %}\n    <li><a href=\"{{ user.url }}\">{{ user.username|e }}</a></li>\n    {{ loop(user.children) }}\n  {% else %}\n    <li>no users</li>\n  {% endfor %}\n  </ul>\n{% endblock %}",
+  "config": {},
+  "repr": "Template(body=[Extends(template=Const(value='base.html')), Output(nodes=[TemplateData(data='\\n')]), Block(name='title', body=[Output(nodes=[TemplateData(data='Members')])], scoped=False, required=False), Output(nodes=[TemplateData(data='\\n')]), Block(name='content', body=[Output(nodes=[TemplateData(data='\\n  <ul>\\n  ')]), For(target=Name(name='user', ctx='store'), iter=Name(name='users', ctx='load'), body=[Output(nodes=[TemplateData(data='\\n    <li><a href=\"'), Getattr(node=Name(name='user', ctx='load'), attr='url', ctx='load'), TemplateData(data='\">'), Filter(node=Getattr(node=Name(name='user', ctx='load'), attr='username', ctx='load'), name='e', args=[], kwargs=[], dyn_args=None, dyn_kwargs=None), TemplateData(data='</a></li>\\n    '), Call(node=Name(name='loop', ctx='load'), args=[Getattr(node=Name(name='user', ctx='load'), attr='children', ctx='load')], kwargs=[], dyn_args=None, dyn_kwargs=None), TemplateData(data='\\n  ')])], else_=[Output(nodes=[TemplateData(data='\\n    <li>no users</li>\\n  ')])], test=Not(node=Getattr(node=Name(name='user', ctx='load'), attr='hidden', ctx='load')), recursive=True), Output(nodes=[TemplateData(data='\\n  </ul>\\n')])], scoped=False, required=False)])"
+ }
+]

@@ -1,0 +1,4090 @@
+[
+ {
+  "name": "simple_var",
+  "source": "{{ foo }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "foo"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "simple_block",
+  "source": "{% if x %}y{% endif %}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "y"
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "simple_comment",
+  "source": "a{# note #}b",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "a"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "b"
+   }
+  ]
+ },
+ {
+  "name": "text_only",
+  "source": "hello world\nsecond line",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "hello world\nsecond line"
+   }
+  ]
+ },
+ {
+  "name": "empty",
+  "source": "",
+  "config": {},
+  "tokens": []
+ },
+ {
+  "name": "var_with_expr",
+  "source": "{{ a + b * c ** d // e % f ~ g }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "a"
+   },
+   {
+    "lineno": 1,
+    "type": "add",
+    "value": "+"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "b"
+   },
+   {
+    "lineno": 1,
+    "type": "mul",
+    "value": "*"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "c"
+   },
+   {
+    "lineno": 1,
+    "type": "pow",
+    "value": "**"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "d"
+   },
+   {
+    "lineno": 1,
+    "type": "floordiv",
+    "value": "//"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "e"
+   },
+   {
+    "lineno": 1,
+    "type": "mod",
+    "value": "%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "f"
+   },
+   {
+    "lineno": 1,
+    "type": "tilde",
+    "value": "~"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "g"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "chained_compare",
+  "source": "{{ 1 < 2 <= 3 == 3 != 4 > 0 >= 0 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 1,
+    "type": "lt",
+    "value": "<"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 2
+   },
+   {
+    "lineno": 1,
+    "type": "lteq",
+    "value": "<="
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 3
+   },
+   {
+    "lineno": 1,
+    "type": "eq",
+    "value": "=="
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 3
+   },
+   {
+    "lineno": 1,
+    "type": "ne",
+    "value": "!="
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 4
+   },
+   {
+    "lineno": 1,
+    "type": "gt",
+    "value": ">"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 0
+   },
+   {
+    "lineno": 1,
+    "type": "gteq",
+    "value": ">="
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 0
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "dict_literal",
+  "source": "{{ {'a': 1, 'b': [1, 2], 'c': (1,)} }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "lbrace",
+    "value": "{"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "a"
+   },
+   {
+    "lineno": 1,
+    "type": "colon",
+    "value": ":"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 1,
+    "type": "comma",
+    "value": ","
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "b"
+   },
+   {
+    "lineno": 1,
+    "type": "colon",
+    "value": ":"
+   },
+   {
+    "lineno": 1,
+    "type": "lbracket",
+    "value": "["
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 1,
+    "type": "comma",
+    "value": ","
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 2
+   },
+   {
+    "lineno": 1,
+    "type": "rbracket",
+    "value": "]"
+   },
+   {
+    "lineno": 1,
+    "type": "comma",
+    "value": ","
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "c"
+   },
+   {
+    "lineno": 1,
+    "type": "colon",
+    "value": ":"
+   },
+   {
+    "lineno": 1,
+    "type": "lparen",
+    "value": "("
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 1,
+    "type": "comma",
+    "value": ","
+   },
+   {
+    "lineno": 1,
+    "type": "rparen",
+    "value": ")"
+   },
+   {
+    "lineno": 1,
+    "type": "rbrace",
+    "value": "}"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "pipe_filter",
+  "source": "{{ foo|default('x')|upper }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "foo"
+   },
+   {
+    "lineno": 1,
+    "type": "pipe",
+    "value": "|"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "default"
+   },
+   {
+    "lineno": 1,
+    "type": "lparen",
+    "value": "("
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "rparen",
+    "value": ")"
+   },
+   {
+    "lineno": 1,
+    "type": "pipe",
+    "value": "|"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "upper"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "multiline_block",
+  "source": "{% for item\n   in seq %}x{% endfor %}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "for"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "in"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "seq"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "x"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endfor"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "num_1",
+  "source": "{{ 1 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_123",
+  "source": "{{ 123 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 123
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_12_34_56",
+  "source": "{{ 12_34_56 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 123456
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_1.2",
+  "source": "{{ 1.2 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "1.2"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_34.56",
+  "source": "{{ 34.56 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "34.56"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_3_4.5_6",
+  "source": "{{ 3_4.5_6 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "34.56"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_1e0",
+  "source": "{{ 1e0 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "1.0"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_10e1",
+  "source": "{{ 10e1 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "100.0"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_2.5e100",
+  "source": "{{ 2.5e100 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "2.5e+100"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_2.5e+100",
+  "source": "{{ 2.5e+100 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "2.5e+100"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_25.6e-10",
+  "source": "{{ 25.6e-10 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "2.56e-09"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_1_2.3_4e5_6",
+  "source": "{{ 1_2.3_4e5_6 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "1.234e+57"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0",
+  "source": "{{ 0 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 0
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_00",
+  "source": "{{ 00 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 0
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0b1001_111",
+  "source": "{{ 0b1001_111 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 79
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0o123",
+  "source": "{{ 0o123 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 83
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0o1_23",
+  "source": "{{ 0o1_23 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 83
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0x123abc",
+  "source": "{{ 0x123abc }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1194684
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0x12_3abc",
+  "source": "{{ 0x12_3abc }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1194684
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0xdEAdBeeF",
+  "source": "{{ 0xdEAdBeeF }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 3735928559
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0B101",
+  "source": "{{ 0B101 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 5
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0O17",
+  "source": "{{ 0O17 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 15
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_0X1f",
+  "source": "{{ 0X1f }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 31
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_1.5E3",
+  "source": "{{ 1.5E3 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "1500.0"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_1_000",
+  "source": "{{ 1_000 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1000
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "num_2.5e1_0",
+  "source": "{{ 2.5e1_0 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "float",
+    "float": "25000000000.0"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_007",
+  "source": "{{ 007 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 0
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 7
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_1__2",
+  "source": "{{ 1__2 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "__2"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_1_",
+  "source": "{{ 1_ }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "_"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_0x",
+  "source": "{{ 0x }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 0
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_0b2",
+  "source": "{{ 0b2 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 0
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "b2"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_1.e5",
+  "source": "{{ 1.e5 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 1,
+    "type": "dot",
+    "value": "."
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "e5"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_12.",
+  "source": "{{ 12. }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 12
+   },
+   {
+    "lineno": 1,
+    "type": "dot",
+    "value": "."
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_foo.0",
+  "source": "{{ foo.0 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "foo"
+   },
+   {
+    "lineno": 1,
+    "type": "dot",
+    "value": "."
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 0
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "numedge_x.5",
+  "source": "{{ x.5 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "dot",
+    "value": "."
+   },
+   {
+    "lineno": 1,
+    "type": "integer",
+    "int": 5
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "str_escapes",
+  "source": "{{ '\\0' ~ '\\t' ~ '\\n' ~ '\\\\' ~ \"\\'\" ~ '\\\"' }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "\u0000"
+   },
+   {
+    "lineno": 1,
+    "type": "tilde",
+    "value": "~"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "\t"
+   },
+   {
+    "lineno": 1,
+    "type": "tilde",
+    "value": "~"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "\n"
+   },
+   {
+    "lineno": 1,
+    "type": "tilde",
+    "value": "~"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "\\"
+   },
+   {
+    "lineno": 1,
+    "type": "tilde",
+    "value": "~"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "'"
+   },
+   {
+    "lineno": 1,
+    "type": "tilde",
+    "value": "~"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "\""
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "str_hex_oct",
+  "source": "{{ '\\x41\\101♨\\U0001F40D' }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "AA♨🐍"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "str_named_escape",
+  "source": "{{ \"\\N{HOT SPRINGS}\" }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "♨"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "str_unknown_escape",
+  "source": "{{ '\\q\\w' }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "\\q\\w"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "str_nonascii",
+  "source": "{{ 'bär' }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "bär"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "str_multiline",
+  "source": "{{ 'a\nb' }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "a\nb"
+   },
+   {
+    "lineno": 2,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "str_with_tags",
+  "source": "{% set x = \" {% str %} \" %}{{ x }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "set"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "assign",
+    "value": "="
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": " {% str %} "
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "str_truncated_x",
+  "source": "{{ '\\x4' }}",
+  "config": {},
+  "error": "truncated \\xXX escape",
+  "error_lineno": 1
+ },
+ {
+  "name": "name_unicode",
+  "source": "{{ föö }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "föö"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "name_ja",
+  "source": "{{ き }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "き"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "name_underscore",
+  "source": "{{ _ }}{{ _foo }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "_"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "_foo"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "name_digits",
+  "source": "{{ a1_b2 }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "a1_b2"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "all_operators",
+  "source": "{{ + - / // * % ** ~ == != > >= < <= = . : | , ; }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "add",
+    "value": "+"
+   },
+   {
+    "lineno": 1,
+    "type": "sub",
+    "value": "-"
+   },
+   {
+    "lineno": 1,
+    "type": "div",
+    "value": "/"
+   },
+   {
+    "lineno": 1,
+    "type": "floordiv",
+    "value": "//"
+   },
+   {
+    "lineno": 1,
+    "type": "mul",
+    "value": "*"
+   },
+   {
+    "lineno": 1,
+    "type": "mod",
+    "value": "%"
+   },
+   {
+    "lineno": 1,
+    "type": "pow",
+    "value": "**"
+   },
+   {
+    "lineno": 1,
+    "type": "tilde",
+    "value": "~"
+   },
+   {
+    "lineno": 1,
+    "type": "eq",
+    "value": "=="
+   },
+   {
+    "lineno": 1,
+    "type": "ne",
+    "value": "!="
+   },
+   {
+    "lineno": 1,
+    "type": "gt",
+    "value": ">"
+   },
+   {
+    "lineno": 1,
+    "type": "gteq",
+    "value": ">="
+   },
+   {
+    "lineno": 1,
+    "type": "lt",
+    "value": "<"
+   },
+   {
+    "lineno": 1,
+    "type": "lteq",
+    "value": "<="
+   },
+   {
+    "lineno": 1,
+    "type": "assign",
+    "value": "="
+   },
+   {
+    "lineno": 1,
+    "type": "dot",
+    "value": "."
+   },
+   {
+    "lineno": 1,
+    "type": "colon",
+    "value": ":"
+   },
+   {
+    "lineno": 1,
+    "type": "pipe",
+    "value": "|"
+   },
+   {
+    "lineno": 1,
+    "type": "comma",
+    "value": ","
+   },
+   {
+    "lineno": 1,
+    "type": "semicolon",
+    "value": ";"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "brackets",
+  "source": "{{ ([{}]) }}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "lparen",
+    "value": "("
+   },
+   {
+    "lineno": 1,
+    "type": "lbracket",
+    "value": "["
+   },
+   {
+    "lineno": 1,
+    "type": "lbrace",
+    "value": "{"
+   },
+   {
+    "lineno": 1,
+    "type": "rbrace",
+    "value": "}"
+   },
+   {
+    "lineno": 1,
+    "type": "rbracket",
+    "value": "]"
+   },
+   {
+    "lineno": 1,
+    "type": "rparen",
+    "value": ")"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "balancing_custom",
+  "source": "{% for item in seq\n            %}${{'foo': item}|upper}{% endfor %}",
+  "config": {
+   "block_start_string": "{%",
+   "block_end_string": "%}",
+   "variable_start_string": "${",
+   "variable_end_string": "}"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "for"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "in"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "seq"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 2,
+    "type": "variable_begin",
+    "value": "${"
+   },
+   {
+    "lineno": 2,
+    "type": "lbrace",
+    "value": "{"
+   },
+   {
+    "lineno": 2,
+    "type": "string",
+    "value": "foo"
+   },
+   {
+    "lineno": 2,
+    "type": "colon",
+    "value": ":"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 2,
+    "type": "rbrace",
+    "value": "}"
+   },
+   {
+    "lineno": 2,
+    "type": "pipe",
+    "value": "|"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "upper"
+   },
+   {
+    "lineno": 2,
+    "type": "variable_end",
+    "value": "}"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endfor"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "balance_err_unexpected",
+  "source": "{{ (a)) }}",
+  "config": {},
+  "error": "unexpected ')'",
+  "error_lineno": 1
+ },
+ {
+  "name": "balance_err_mismatch",
+  "source": "{{ (a] }}",
+  "config": {},
+  "error": "unexpected ']', expected ')'",
+  "error_lineno": 1
+ },
+ {
+  "name": "unexpected_char",
+  "source": "{{ a ? b }}",
+  "config": {},
+  "error": "unexpected char '?' at 5",
+  "error_lineno": 1
+ },
+ {
+  "name": "invalid_str",
+  "source": "{{ 'abc }}",
+  "config": {},
+  "error": "unexpected char \"'\" at 3",
+  "error_lineno": 1
+ },
+ {
+  "name": "raw1",
+  "source": "{% raw %}foo{% endraw %}|{%raw%}{{ bar }}|{% baz %}{%       endraw    %}",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "foo"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "|"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "{{ bar }}|{% baz %}"
+   }
+  ]
+ },
+ {
+  "name": "raw2",
+  "source": "1  {%- raw -%}   2   {%- endraw -%}   3",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "1"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "2"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "3"
+   }
+  ]
+ },
+ {
+  "name": "raw3",
+  "source": "bar\n{% raw %}\n  {{baz}}2 spaces\n{% endraw %}\nfoo",
+  "config": {
+   "lstrip_blocks": true,
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "bar\n"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "\n  {{baz}}2 spaces\n"
+   },
+   {
+    "lineno": 5,
+    "type": "data",
+    "value": "foo"
+   }
+  ]
+ },
+ {
+  "name": "raw4",
+  "source": "bar\n{%- raw -%}\n\n  \n  2 spaces\n space{%- endraw -%}\nfoo",
+  "config": {
+   "lstrip_blocks": true,
+   "trim_blocks": false
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "bar"
+   },
+   {
+    "lineno": 5,
+    "type": "data",
+    "value": "2 spaces\n space"
+   },
+   {
+    "lineno": 7,
+    "type": "data",
+    "value": "foo"
+   }
+  ]
+ },
+ {
+  "name": "raw_trim_lstrip",
+  "source": "{% raw %}\n  {{baz}}2 spaces\n{% endraw %}\nfoo",
+  "config": {
+   "lstrip_blocks": true,
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n  {{baz}}2 spaces\n"
+   },
+   {
+    "lineno": 4,
+    "type": "data",
+    "value": "foo"
+   }
+  ]
+ },
+ {
+  "name": "raw_no_trim_lstrip",
+  "source": "{% raw %}\n  {{baz}}2 spaces\n{% endraw %}\nfoo",
+  "config": {
+   "lstrip_blocks": true,
+   "trim_blocks": false
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n  {{baz}}2 spaces\n"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "\nfoo"
+   }
+  ]
+ },
+ {
+  "name": "raw_missing_end",
+  "source": "{% raw %}foo",
+  "config": {},
+  "error": "Missing end of raw directive",
+  "error_lineno": 1
+ },
+ {
+  "name": "raw_plus_end",
+  "source": "x  {% raw +%}\ndata{% endraw +%}  y",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "x  "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "raw"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "+%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\ndata"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endraw"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "+%}"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "  y"
+   }
+  ]
+ },
+ {
+  "name": "comment_missing_end",
+  "source": "{# foo",
+  "config": {},
+  "error": "Missing end of comment tag",
+  "error_lineno": 1
+ },
+ {
+  "name": "comment_signs",
+  "source": "a   {#- x -#}   b",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "a"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "b"
+   }
+  ]
+ },
+ {
+  "name": "comment_plus",
+  "source": "a   {#+ x +#}   b",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "a   "
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "   b"
+   }
+  ]
+ },
+ {
+  "name": "comment_custom",
+  "source": "<ul>\n<!--- for item in seq -->\n  <li>{item}</li>\n<!--- endfor -->\n</ul>",
+  "config": {
+   "block_start_string": "<!--",
+   "block_end_string": "-->",
+   "variable_start_string": "{",
+   "variable_end_string": "}"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "<ul>"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "<!---"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "for"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "in"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "seq"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "-->"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "\n  <li>"
+   },
+   {
+    "lineno": 3,
+    "type": "variable_begin",
+    "value": "{"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 3,
+    "type": "variable_end",
+    "value": "}"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "</li>"
+   },
+   {
+    "lineno": 4,
+    "type": "block_begin",
+    "value": "<!---"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "endfor"
+   },
+   {
+    "lineno": 4,
+    "type": "block_end",
+    "value": "-->"
+   },
+   {
+    "lineno": 4,
+    "type": "data",
+    "value": "\n</ul>"
+   }
+  ]
+ },
+ {
+  "name": "comment_trim",
+  "source": "X{#comment#}\nY",
+  "config": {
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "X"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "Y"
+   }
+  ]
+ },
+ {
+  "name": "comment_no_trim",
+  "source": "X{#comment#}\nY",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "X"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\nY"
+   }
+  ]
+ },
+ {
+  "name": "lstrip",
+  "source": "    {% if True %}\n    {% endif %}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_trim",
+  "source": "    {% if True %}\n    {% endif %}",
+  "config": {
+   "lstrip_blocks": true,
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}\n"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "no_lstrip",
+  "source": "    {%+ if True %}\n    {%+ endif %}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "    "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%+"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n    "
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%+"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "no_lstrip_minus",
+  "source": "    {%- if True %}\n    {%- endif %}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%-"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%-"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_false_plus",
+  "source": "    {%+ if True %}\n    {%+ endif %}",
+  "config": {
+   "lstrip_blocks": false
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "    "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%+"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n    "
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%+"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_false_minus",
+  "source": "    {%- if True %}\n    {%- endif %}",
+  "config": {
+   "lstrip_blocks": false
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%-"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%-"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_endline",
+  "source": "    hello{% if True %}\n    goodbye{% endif %}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "    hello"
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n    goodbye"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_inline",
+  "source": "    {% if True %}hello    {% endif %}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "hello    "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_nested",
+  "source": "    {% if True %}a {% if True %}b {% endif %}c {% endif %}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "a "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "b "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "c "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_left_chars",
+  "source": "    hello\n    abc{% if True %}\n        world{% endif %}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "    hello\n    abc"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "\n        world"
+   },
+   {
+    "lineno": 3,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 3,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_preserve_leading_newlines",
+  "source": "\n\n\n{% set hello = 1 %}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n\n\n"
+   },
+   {
+    "lineno": 4,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "set"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "hello"
+   },
+   {
+    "lineno": 4,
+    "type": "assign",
+    "value": "="
+   },
+   {
+    "lineno": 4,
+    "type": "integer",
+    "int": 1
+   },
+   {
+    "lineno": 4,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_comment",
+  "source": "    {# if True #}\nhello\n    {#endif#}",
+  "config": {
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\nhello\n"
+   }
+  ]
+ },
+ {
+  "name": "lstrip_angle_simple",
+  "source": "    <% if True %>hello    <% endif %>",
+  "config": {
+   "block_start_string": "<%",
+   "block_end_string": "%>",
+   "variable_start_string": "${",
+   "variable_end_string": "}",
+   "comment_start_string": "<%#",
+   "comment_end_string": "%>",
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "<%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%>"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "hello    "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "<%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%>"
+   }
+  ]
+ },
+ {
+  "name": "php_syntax_lstrip",
+  "source": "<!-- I'm a comment, I'm not interesting -->\n<? for item in seq -?>\n        <?= item ?>\n<?- endfor ?>",
+  "config": {
+   "block_start_string": "<?",
+   "block_end_string": "?>",
+   "variable_start_string": "<?=",
+   "variable_end_string": "?>",
+   "comment_start_string": "<!--",
+   "comment_end_string": "-->",
+   "lstrip_blocks": true,
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "<?"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "for"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "in"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "seq"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "-?>\n        "
+   },
+   {
+    "lineno": 3,
+    "type": "variable_begin",
+    "value": "<?="
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 3,
+    "type": "variable_end",
+    "value": "?>"
+   },
+   {
+    "lineno": 4,
+    "type": "block_begin",
+    "value": "<?-"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "endfor"
+   },
+   {
+    "lineno": 4,
+    "type": "block_end",
+    "value": "?>"
+   }
+  ]
+ },
+ {
+  "name": "erb_syntax",
+  "source": "<%# I'm a comment, I'm not interesting %>\n    <% for item in seq %>\n    <%= item %>\n    <% endfor %>",
+  "config": {
+   "block_start_string": "<%",
+   "block_end_string": "%>",
+   "variable_start_string": "<%=",
+   "variable_end_string": "%>",
+   "comment_start_string": "<%#",
+   "comment_end_string": "%>",
+   "lstrip_blocks": true,
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "<%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "for"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "in"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "seq"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%>\n"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "    "
+   },
+   {
+    "lineno": 3,
+    "type": "variable_begin",
+    "value": "<%="
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 3,
+    "type": "variable_end",
+    "value": "%>"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 4,
+    "type": "block_begin",
+    "value": "<%"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "endfor"
+   },
+   {
+    "lineno": 4,
+    "type": "block_end",
+    "value": "%>"
+   }
+  ]
+ },
+ {
+  "name": "trim",
+  "source": "    {% if True %}\n    {% endif %}",
+  "config": {
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "    "
+   },
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}\n"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "    "
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "trim_nested",
+  "source": "    {% if True %}\na {% if True %}\nb {% endif %}\nc {% endif %}",
+  "config": {
+   "trim_blocks": true,
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "%}\n"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "a "
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "%}\n"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "b "
+   },
+   {
+    "lineno": 3,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 3,
+    "type": "block_end",
+    "value": "%}\n"
+   },
+   {
+    "lineno": 4,
+    "type": "data",
+    "value": "c "
+   },
+   {
+    "lineno": 4,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 4,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "no_trim_nested",
+  "source": "    {% if True +%}\na {% if True +%}\nb {% endif +%}\nc {% endif %}",
+  "config": {
+   "trim_blocks": true,
+   "lstrip_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "+%}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\na "
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "True"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "+%}"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "\nb "
+   },
+   {
+    "lineno": 3,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 3,
+    "type": "block_end",
+    "value": "+%}"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "\nc "
+   },
+   {
+    "lineno": 4,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 4,
+    "type": "block_end",
+    "value": "%}"
+   }
+  ]
+ },
+ {
+  "name": "trim_plus_var",
+  "source": "    {{ x }}\n    {{ y }}",
+  "config": {
+   "lstrip_blocks": true,
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "    "
+   },
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "variable_end",
+    "value": "}}"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n    "
+   },
+   {
+    "lineno": 2,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "y"
+   },
+   {
+    "lineno": 2,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "multiple_comment_trim_lstrip",
+  "source": "   {# comment #}\n\n{# comment2 #}\n   \n{# comment3 #}\n\n ",
+  "config": {
+   "lstrip_blocks": true,
+   "trim_blocks": true
+  },
+  "tokens": [
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 4,
+    "type": "data",
+    "value": "   \n"
+   },
+   {
+    "lineno": 6,
+    "type": "data",
+    "value": "\n "
+   }
+  ]
+ },
+ {
+  "name": "line_syntax",
+  "source": "<%# regular comment %>\n% for item in seq:\n    ${item}\n% endfor",
+  "config": {
+   "block_start_string": "<%",
+   "block_end_string": "%>",
+   "variable_start_string": "${",
+   "variable_end_string": "}",
+   "comment_start_string": "<%#",
+   "comment_end_string": "%>",
+   "line_statement_prefix": "%"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 2,
+    "type": "block_begin",
+    "value": "%"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "for"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "in"
+   },
+   {
+    "lineno": 2,
+    "type": "name",
+    "value": "seq"
+   },
+   {
+    "lineno": 2,
+    "type": "colon",
+    "value": ":"
+   },
+   {
+    "lineno": 2,
+    "type": "block_end",
+    "value": "\n"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "    "
+   },
+   {
+    "lineno": 3,
+    "type": "variable_begin",
+    "value": "${"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 3,
+    "type": "variable_end",
+    "value": "}"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 4,
+    "type": "block_begin",
+    "value": "%"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "endfor"
+   },
+   {
+    "lineno": 4,
+    "type": "block_end",
+    "value": ""
+   }
+  ]
+ },
+ {
+  "name": "line_syntax_priority1",
+  "source": "/* ignore me.\n   I'm a multiline comment */\n## for item in seq:\n* ${item}          # this is just extra stuff\n## endfor",
+  "config": {
+   "block_start_string": "{%",
+   "block_end_string": "%}",
+   "variable_start_string": "${",
+   "variable_end_string": "}",
+   "comment_start_string": "/*",
+   "comment_end_string": "*/",
+   "line_statement_prefix": "##",
+   "line_comment_prefix": "#"
+  },
+  "tokens": [
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 3,
+    "type": "block_begin",
+    "value": "##"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "for"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "in"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "seq"
+   },
+   {
+    "lineno": 3,
+    "type": "colon",
+    "value": ":"
+   },
+   {
+    "lineno": 3,
+    "type": "block_end",
+    "value": "\n"
+   },
+   {
+    "lineno": 4,
+    "type": "data",
+    "value": "* "
+   },
+   {
+    "lineno": 4,
+    "type": "variable_begin",
+    "value": "${"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 4,
+    "type": "variable_end",
+    "value": "}"
+   },
+   {
+    "lineno": 4,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 5,
+    "type": "block_begin",
+    "value": "##"
+   },
+   {
+    "lineno": 5,
+    "type": "name",
+    "value": "endfor"
+   },
+   {
+    "lineno": 5,
+    "type": "block_end",
+    "value": ""
+   }
+  ]
+ },
+ {
+  "name": "line_syntax_priority2",
+  "source": "/* ignore me.\n   I'm a multiline comment */\n# for item in seq:\n* ${item}          ## this is just extra stuff\n    ## extra stuff i just want to ignore\n# endfor",
+  "config": {
+   "block_start_string": "{%",
+   "block_end_string": "%}",
+   "variable_start_string": "${",
+   "variable_end_string": "}",
+   "comment_start_string": "/*",
+   "comment_end_string": "*/",
+   "line_statement_prefix": "#",
+   "line_comment_prefix": "##"
+  },
+  "tokens": [
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 3,
+    "type": "block_begin",
+    "value": "#"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "for"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "in"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "seq"
+   },
+   {
+    "lineno": 3,
+    "type": "colon",
+    "value": ":"
+   },
+   {
+    "lineno": 3,
+    "type": "block_end",
+    "value": "\n"
+   },
+   {
+    "lineno": 4,
+    "type": "data",
+    "value": "* "
+   },
+   {
+    "lineno": 4,
+    "type": "variable_begin",
+    "value": "${"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "item"
+   },
+   {
+    "lineno": 4,
+    "type": "variable_end",
+    "value": "}"
+   },
+   {
+    "lineno": 4,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 5,
+    "type": "data",
+    "value": "\n"
+   },
+   {
+    "lineno": 6,
+    "type": "block_begin",
+    "value": "#"
+   },
+   {
+    "lineno": 6,
+    "type": "name",
+    "value": "endfor"
+   },
+   {
+    "lineno": 6,
+    "type": "block_end",
+    "value": ""
+   }
+  ]
+ },
+ {
+  "name": "line_stmt_signs",
+  "source": "# if x\nfoo\n# endif",
+  "config": {
+   "line_statement_prefix": "#"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "#"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "\n"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "foo\n"
+   },
+   {
+    "lineno": 3,
+    "type": "block_begin",
+    "value": "#"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 3,
+    "type": "block_end",
+    "value": ""
+   }
+  ]
+ },
+ {
+  "name": "line_stmt_eof_nonl",
+  "source": "# if x\nfoo\n# endif",
+  "config": {
+   "line_statement_prefix": "#"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "block_begin",
+    "value": "#"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 1,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 1,
+    "type": "block_end",
+    "value": "\n"
+   },
+   {
+    "lineno": 2,
+    "type": "data",
+    "value": "foo\n"
+   },
+   {
+    "lineno": 3,
+    "type": "block_begin",
+    "value": "#"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 3,
+    "type": "block_end",
+    "value": ""
+   }
+  ]
+ },
+ {
+  "name": "line_comment_only",
+  "source": "foo ## comment\nbar",
+  "config": {
+   "line_comment_prefix": "##"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "foo"
+   },
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "\nbar"
+   }
+  ]
+ },
+ {
+  "name": "trailing_newline_keep",
+  "source": "a\n",
+  "config": {
+   "keep_trailing_newline": true
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "a\n"
+   }
+  ]
+ },
+ {
+  "name": "trailing_newline_drop",
+  "source": "a\n",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "a"
+   }
+  ]
+ },
+ {
+  "name": "trailing_crlf",
+  "source": "a\r\n",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "a"
+   }
+  ]
+ },
+ {
+  "name": "mixed_newlines",
+  "source": "1\n2\r\n3\n4\n",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "1\n2\n3\n4"
+   }
+  ]
+ },
+ {
+  "name": "newline_seq_\"\\r\"",
+  "source": "1\n2\r\n3\n4\n",
+  "config": {
+   "newline_sequence": "\r"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "1\r2\r3\r4"
+   }
+  ]
+ },
+ {
+  "name": "newline_seq_\"\\r\\n\"",
+  "source": "1\n2\r\n3\n4\n",
+  "config": {
+   "newline_sequence": "\r\n"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "1\r\n2\r\n3\r\n4"
+   }
+  ]
+ },
+ {
+  "name": "newline_seq_\"\\n\"",
+  "source": "1\n2\r\n3\n4\n",
+  "config": {
+   "newline_sequence": "\n"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "1\n2\n3\n4"
+   }
+  ]
+ },
+ {
+  "name": "string_newline_normalize",
+  "source": "{{ 'a\r\nb' }}",
+  "config": {
+   "newline_sequence": "\r\n"
+  },
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 1,
+    "type": "string",
+    "value": "a\r\nb"
+   },
+   {
+    "lineno": 2,
+    "type": "variable_end",
+    "value": "}}"
+   }
+  ]
+ },
+ {
+  "name": "lineno_with_strip",
+  "source": "foo\nbar\n{%- if baz %}\nbuz\n{% endif %}\nzop",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "foo\nbar"
+   },
+   {
+    "lineno": 3,
+    "type": "block_begin",
+    "value": "{%-"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "if"
+   },
+   {
+    "lineno": 3,
+    "type": "name",
+    "value": "baz"
+   },
+   {
+    "lineno": 3,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 3,
+    "type": "data",
+    "value": "\nbuz\n"
+   },
+   {
+    "lineno": 5,
+    "type": "block_begin",
+    "value": "{%"
+   },
+   {
+    "lineno": 5,
+    "type": "name",
+    "value": "endif"
+   },
+   {
+    "lineno": 5,
+    "type": "block_end",
+    "value": "%}"
+   },
+   {
+    "lineno": 5,
+    "type": "data",
+    "value": "\nzop"
+   }
+  ]
+ },
+ {
+  "name": "lineno_multiline_ws",
+  "source": "a\n\n\n{{ x\n+\ny }}\nb",
+  "config": {},
+  "tokens": [
+   {
+    "lineno": 1,
+    "type": "data",
+    "value": "a\n\n\n"
+   },
+   {
+    "lineno": 4,
+    "type": "variable_begin",
+    "value": "{{"
+   },
+   {
+    "lineno": 4,
+    "type": "name",
+    "value": "x"
+   },
+   {
+    "lineno": 5,
+    "type": "add",
+    "value": "+"
+   },
+   {
+    "lineno": 6,
+    "type": "name",
+    "value": "y"
+   },
+   {
+    "lineno": 6,
+    "type": "variable_end",
+    "value": "}}"
+   },
+   {
+    "lineno": 6,
+    "type": "data",
+    "value": "\nb"
+   }
+  ]
+ }
+]

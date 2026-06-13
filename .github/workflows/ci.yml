@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Test (Go ${{ matrix.go }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: ["1.22", "1.23", "stable"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Build
+        run: go build ./...
+      - name: Vet
+        run: go vet ./...
+      - name: Test
+        run: go test -count=1 ./...
+
+  conformance-regen:
+    name: Conformance corpus freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch reference Jinja2
+        run: git clone --depth 1 --branch 3.1.6 https://github.com/pallets/jinja.git reference/jinja
+      - name: Install markupsafe
+        run: pip install markupsafe
+      - name: Regenerate corpus from CPython
+        run: |
+          PYTHONPATH=reference/jinja/src python3 tools/gen_lexer_fixtures.py  > lexer/testdata/lexer_fixtures.json
+          PYTHONPATH=reference/jinja/src python3 tools/gen_parser_fixtures.py > parser/testdata/parser_fixtures.json
+          PYTHONPATH=reference/jinja/src python3 tools/gen_render_fixtures.py > rendertest/testdata/render_fixtures.json
+      - name: Corpus must be in sync with committed fixtures
+        run: git diff --exit-code -- '*/testdata/*.json'
+      - name: Test against fresh corpus
+        run: go test -count=1 ./...
