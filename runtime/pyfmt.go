@@ -94,7 +94,10 @@ func PyFormatPercent(format string, args any) string {
 		// 宽度
 		width := -1
 		if i < len(format) && format[i] == '*' {
-			w, _ := asInt(nextArg())
+			w, ok := asInt(nextArg())
+			if !ok {
+				RaiseType("* wants int")
+			}
 			width = int(w)
 			if width < 0 {
 				flagMinus = true
@@ -116,7 +119,10 @@ func PyFormatPercent(format string, args any) string {
 			i++
 			prec = 0
 			if i < len(format) && format[i] == '*' {
-				p, _ := asInt(nextArg())
+				p, ok := asInt(nextArg())
+				if !ok {
+					RaiseType("* wants int")
+				}
 				prec = int(p)
 				i++
 			} else {

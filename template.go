@@ -73,7 +73,21 @@ func normalizeIn(v any) any {
 	switch tv := v.(type) {
 	case int:
 		return int64(tv)
+	case int8:
+		return int64(tv)
+	case int16:
+		return int64(tv)
 	case int32:
+		return int64(tv)
+	case uint:
+		return int64(tv)
+	case uint8:
+		return int64(tv)
+	case uint16:
+		return int64(tv)
+	case uint32:
+		return int64(tv)
+	case uint64:
 		return int64(tv)
 	case float32:
 		return float64(tv)
@@ -161,8 +175,14 @@ func (s *evalState) execRoot(t *Template) {
 	s.suppressOutput = t.hasTopLevelExtends
 	s.execBlock(t.ast.Body, root)
 
+	// 沿 extends 链向上渲染父模板; 记录已访问模板以检测循环继承
+	seen := map[*Template]bool{t: true}
 	for s.parentTemplate != nil {
 		p := s.parentTemplate
+		if seen[p] {
+			s.fail("检测到循环模板继承 (extends): "+runtime.PyStrRepr(p.Name), 0)
+		}
+		seen[p] = true
 		s.parentTemplate = nil
 		s.currentTemplate = p
 		s.suppressOutput = p.hasTopLevelExtends
@@ -176,6 +196,11 @@ func (s *evalState) execRoot(t *Template) {
 func (t *Template) module(parent map[string]any) *templateModule {
 	ctx := t.newContext(parent)
 	s := &evalState{ctx: ctx, out: &strings.Builder{}, tmpl: t}
+	// self 须指向被导入模板自身 (with context 导入时覆盖外层的 self)
+	if ctx.parent == nil {
+		ctx.parent = map[string]any{}
+	}
+	ctx.parent["self"] = &selfRefValue{state: s}
 	s.blockStack = map[string][]blockEntry{}
 	for name, b := range t.blocks {
 		s.blockStack[name] = []blockEntry{{block: b, tmpl: t}}

@@ -114,10 +114,12 @@ func strMethod(s string, name string) (any, bool) {
 	case "zfill":
 		return method(name, func(a []any, k *Dict) any {
 			w := int(intArg(arg(a, 0, int64(0)), "width"))
-			if len(s) >= w {
+			// Python str.zfill 按字符 (rune) 计数, 非字节
+			n := len([]rune(s))
+			if n >= w {
 				return s
 			}
-			pad := strings.Repeat("0", w-len(s))
+			pad := strings.Repeat("0", w-n)
 			if strings.HasPrefix(s, "-") || strings.HasPrefix(s, "+") {
 				return s[:1] + pad + s[1:]
 			}
